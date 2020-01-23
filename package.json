@@ -12,6 +12,7 @@
     "antd": "^3.26.7",
     "babel-jest": "24.9.0",
     "babel-plugin-react-intl": "^5.1.17",
+    "canvas-prebuilt": "^2.0.0-alpha.14",
     "customize-cra": "^0.9.1",
     "mobx": "^5.15.2",
     "mobx-react": "^6.1.5",
@@ -52,6 +53,10 @@
     ]
   },
   "devDependencies": {
+    "jest-canvas-mock": "^2.2.0",
     "react-intl-translations-manager": "^5.0.3"
+  },
+  "jest": {
+    "setupFiles": ["jest-canvas-mock"]
   }
 }
