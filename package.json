@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.2.1",
     "antd": "^3.26.7",
     "babel-plugin-react-intl": "^5.1.17",
+    "babel-jest": "24.9.0",
     "customize-cra": "^0.9.1",
     "mobx": "^5.15.2",
     "mobx-react": "^6.1.5",
