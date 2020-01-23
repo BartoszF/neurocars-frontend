@@ -4,6 +4,7 @@
   "proxy": "http://localhost:8080",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.8.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
