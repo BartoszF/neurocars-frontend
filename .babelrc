@@ -7,7 +7,7 @@
                 },
                 "modules": "commonjs",
                 "loose": true,
-                "debug": true
+                "debug": false
             }
         ]
     ],
