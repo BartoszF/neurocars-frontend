@@ -1,8 +1,8 @@
 {
   "name": "neurocars",
   "version": "0.1.0",
-  "proxy": "http://localhost:8080",
-  "private": true,
+  "homepage": "https://neurocars-frontend.herokuapp.com/",
+  "private": false,
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.8.3",
     "@testing-library/jest-dom": "^4.2.4",
