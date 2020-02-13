@@ -60,6 +60,6 @@
     "setupFiles": ["jest-canvas-mock"]
   },
   "engines": {
-    "node": "10.15.2"
+    "node": "10.17.0"
   }
 }
