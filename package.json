@@ -58,5 +58,8 @@
   },
   "jest": {
     "setupFiles": ["jest-canvas-mock"]
+  },
+  "engines": {
+    "node": "10.17.0"
   }
 }
