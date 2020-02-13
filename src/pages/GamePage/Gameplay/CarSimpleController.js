@@ -54,12 +54,12 @@ export default class CarSimpleController extends CarController {
     if (x < 0) {
       Phaser.Physics.Matter.Matter.Body.setAngularVelocity(
         this.car.body.body,
-        -0.05 * turnFactor
+        -0.05 * turnFactor * Math.sign(y)
       );
     } else if (x > 0) {
       Phaser.Physics.Matter.Matter.Body.setAngularVelocity(
         this.car.body.body,
-        0.05 * turnFactor
+        0.05 * turnFactor * Math.sign(y)
       );
     }
 
