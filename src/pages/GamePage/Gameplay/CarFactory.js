@@ -26,19 +26,23 @@ export default function createCar(carConfig, phaser) {
 //   RRTire.setCollidesWith(tireWorldCollision);
 
   var Bodies = Phaser.Physics.Matter.Matter.Bodies;
-  var carPhysicsBody = Bodies.rectangle(150, 175, 200, 128);
+  var carPhysicsBody = Bodies.rectangle(0, -600, 100, 62, {
+    mass: 1000,
+    inverseMass: 1/1000,
+    friction: 0.3,
+    fritctionAir: 0.4
+  });
 
   var carBody = phaser.matter.add.image(0, 0, "wheel");
-  carBody.displayWidth = 200;
-  carBody.displayHeight = 125;
-  carBody.setMass(100);
-  carBody.setFrictionAir(0.1);
+  carBody.displayWidth = 100;
+  carBody.displayHeight = 62;
+  
   carBody.setExistingBody(carPhysicsBody);
-  carBody.setCollisionCategory(collisionCategories["BODY"]);
-  carBody.setCollidesWith([
-    collisionCategories["WORLD"],
-    collisionCategories["BODY"]
-  ]);
+//   carBody.setCollisionCategory(collisionCategories["BODY"]);
+//   carBody.setCollidesWith([
+//     collisionCategories["WORLD"],
+//     collisionCategories["BODY"]
+//   ]);
 
 //   var LFTireAttach = createAttachPoint(
 //     LFTire.body,
@@ -81,6 +85,7 @@ export default function createCar(carConfig, phaser) {
 
   return {
     body: carBody,
+    config: carConfig,
     // LFTire: new Tire(LFTire, carConfig),
     // RFTire: new Tire(RFTire, carConfig),
     // LRTire: new Tire(LRTire, carConfig),

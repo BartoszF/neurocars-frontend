@@ -5,25 +5,29 @@ import { scene } from "./GameScene.jsx";
 import styled from "styled-components";
 
 const GameWrapper = styled.div`
-    width:800px;
-    height:600px;
+    width:100%;
+    height:100%;
     margin-left:auto;
     margin-right:auto;
-    margin-top:50px;
+    position: absolute;
 `;
 
 export const GamePage = props => {
   let [init, setInit] = useState(true);
 
   const game = {
-    width: 800,
-    height: 600,
     type: Phaser.AUTO,
     physics: {
         default: 'matter',
         matter: {
             debug: true
         }
+    },
+    scale: {
+      mode: Phaser.Scale.FIT,
+      width: 1366,
+      height: 768,
+      autoCenter: Phaser.Scale.CENTER_BOTH,
     },
     scene: scene
   };
