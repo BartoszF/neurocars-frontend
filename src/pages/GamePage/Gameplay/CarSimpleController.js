@@ -2,34 +2,12 @@ import Phaser from "phaser";
 
 import CarController from "./CarController";
 
-const MAX_LATERAL_IMPULSE = 0.8;
+const MAX_LATERAL_IMPULSE = 1.8;
 
 export default class CarSimpleController extends CarController {
-  getForwardVector() {
-    return new Phaser.Math.Vector2(
-      Math.sin(this.car.body.rotation + Math.PI / 2),
-      Math.cos(this.car.body.rotation + Math.PI / 2)
-    );
-  }
-
-  getRightVector() {
-    let forwardVector = this.getForwardVector();
-    return new Phaser.Math.Vector2(forwardVector.y, forwardVector.x);
-  }
-
-  getLateralVelocity() {
-    let rightVector = this.getRightVector();
-    let forwardVelocity = this.car.body.body.velocity;
-    return rightVector.scale(rightVector.dot(forwardVelocity));
-  }
-
-  getForwardVelocity() {
-    let forwardVector = this.getForwardVector();
-    let forwardVelocity = this.car.body.body.velocity;
-    return forwardVector.scale(forwardVector.dot(forwardVelocity));
-  }
-
   update(x, y) {
+    super.update(x,y);
+
     let velocity = new Phaser.Math.Vector2(
       this.car.body.body.velocity.x,
       this.car.body.body.velocity.y
@@ -43,7 +21,7 @@ export default class CarSimpleController extends CarController {
     }
 
     if (impulse.length() > 0 && this.getLateralVelocity().length() > 0)
-      this.car.body.applyForce(impulse.scale(/*this.currentTraction*/ 0.8));
+      this.car.body.applyForce(impulse.scale(/*this.currentTraction*/ 0.85));
 
     this.car.body.setAngularVelocity(this.car.body.body.angularVelocity * 0.9);
 
@@ -54,16 +32,14 @@ export default class CarSimpleController extends CarController {
     if (x < 0) {
       Phaser.Physics.Matter.Matter.Body.setAngularVelocity(
         this.car.body.body,
-        -0.05 * turnFactor * Math.sign(y)
+        -0.05 * turnFactor * Math.sign(y+0.01)
       );
     } else if (x > 0) {
       Phaser.Physics.Matter.Matter.Body.setAngularVelocity(
         this.car.body.body,
-        0.05 * turnFactor * Math.sign(y)
+        0.05 * turnFactor * Math.sign(y+0.01)
       );
     }
-
-    console.log(this.getForwardVelocity().length(), velocity.length());
 
     if (y > 0) {
       if (this.getForwardVelocity().length() < this.car.config.maxForwardSpeed)

@@ -2,9 +2,11 @@ import Phaser from "phaser";
 import createCar from "./Gameplay/CarFactory";
 import { collisionCategories } from "./Gameplay/Constants";
 import CarSimpleController from "./Gameplay/CarSimpleController";
+import GameStore from "../../stores/GameStore";
 
 export const scene = {
   preload: function() {
+    this.time.advancedTiming = true;
     this.load.image("wheel", "/assets/wheel.png");
   },
 
@@ -33,9 +35,9 @@ export const scene = {
       this
     );
 
-    this.carController = new CarSimpleController(this.car);
+    this.carController = new CarSimpleController(this);
 
-    this.matter.add.rectangle(0, 0, 1000, 1000, {isStatic: true});
+    this.matter.add.rectangle(0, 0, 1000, 1000, {isStatic: true, label: "Center block"});
 
     this.cameras.main.setZoom(0.3);
     this.cameras.main.startFollow(this.car.body, false, 0.6, 0.6, 0, 0);
@@ -53,5 +55,9 @@ export const scene = {
     if (this.cursors.right.isDown) x = 1;
 
     this.carController.update(x, y);
+  },
+  render: function() {
+      //  FPS debug info
+      this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 40, 40, "#00ff00");
   }
 };
