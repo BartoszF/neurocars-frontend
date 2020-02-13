@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Phaser from "phaser";
 import { IonPhaser } from "@ion-phaser/react";
 import { scene } from "./GameScene.jsx";
@@ -16,7 +16,13 @@ const GameWrapper = styled.div`
 
 export const GamePage = observer(props => {
   let [init, setInit] = useState(true);
-  let {gameStore} = useStores();
+  let {gameStore, userStore} = useStores();
+
+  useEffect(() => {
+    if(userStore.userData == null && userStore.operation === "NO") {
+      userStore.getPlayerByUsername("KebabuTurka");
+    }
+  })
 
   const game = {
     type: Phaser.AUTO,

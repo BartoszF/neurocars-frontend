@@ -8,18 +8,26 @@ const SimulationService = {
     // }
 
     return request({
-      url: `/simulation/${simulationId}`,
+      url: `/simulations/${simulationId}`,
       method: "GET"
     });
   },
 
+  createSimulation(playerId) {
+    return request({
+          url: `/simulations`,
+          method: "POST",
+          body: JSON.stringify(playerId)
+      })
+  },
+
   patchSimulation(simulationId,body) {
       console.log(body);
-      /*return request({
-          url: `/simulation/${simulationId}`,
+      return request({
+          url: `/simulations/${simulationId}`,
           method: "PATCH",
           body: JSON.stringify(body)
-      })*/
+      })
   }
 };
 

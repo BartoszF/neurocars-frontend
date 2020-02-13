@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import raycast from "./ray";
 import GameStore from "../../../stores/GameStore";
+import UserStore from "../../../stores/UserStore";
 
 let degreeToRad = function(degree) {
   return degree * (Math.PI / 180);
@@ -16,6 +17,20 @@ export default class CarController {
   }
 
   update(x, y) {
+    if (GameStore.isSimulationRunning()) {
+      this.simulationUpdate(x, y);
+      this.scene.input.keyboard.on("keydown-X", function(event) {
+        this.endSimulation();
+      });
+    } else if (
+      UserStore.getPlayerId != null &&
+      GameStore.getOperation() == "NO"
+    ) {
+      GameStore.createSimulation(UserStore.getPlayerId());
+    }
+  }
+
+  simulationUpdate(x, y) {
     this.frame++;
     let bodies = [];
     let walls = this.scene.matter.world.walls;
@@ -32,7 +47,7 @@ export default class CarController {
     //Shoot these rays!
     let center = new Phaser.Math.Vector2(this.car.body.x, this.car.body.y);
     let forward = this.getForwardVector();
-    let rayLength = 1500;
+    let rayLength = 2000;
 
     /*
         x2=cosβx1−sinβy1
@@ -60,9 +75,9 @@ export default class CarController {
       if (coll.length > 1) {
         let ray = coll[0];
         let point = new Phaser.Math.Vector2(ray.point.x, ray.point.y);
-        sensorData[i] = point.distance(center);
+        sensorData[i] = point.distance(center) / rayLength;
       } else {
-        sensorData[i] = rayLength;
+        sensorData[i] = 1.0;
       }
     }
 
@@ -78,8 +93,12 @@ export default class CarController {
     GameStore.addFrame(frameData);
 
     if (this.frame % 30 === 0) {
-      GameStore.sendFrames();
+      GameStore.sendFrames(this.frame);
     }
+  }
+
+  endSimulation() {
+    GameStore.endSimulation(this.frame);
   }
 
   getForwardVector() {
