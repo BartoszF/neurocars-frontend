@@ -6,7 +6,6 @@ import GameStore from "../../stores/GameStore";
 
 export const scene = {
   preload: function() {
-    this.time.advancedTiming = true;
     this.load.image("wheel", "/assets/wheel.png");
   },
 
@@ -55,9 +54,5 @@ export const scene = {
     if (this.cursors.right.isDown) x = 1;
 
     this.carController.update(x, y);
-  },
-  render: function() {
-      //  FPS debug info
-      this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 40, 40, "#00ff00");
   }
 };

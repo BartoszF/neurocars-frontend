@@ -2,28 +2,33 @@ import Phaser from "phaser";
 import raycast from "./ray";
 import GameStore from "../../../stores/GameStore";
 import UserStore from "../../../stores/UserStore";
+import { observe } from "mobx-react";
 
 let degreeToRad = function(degree) {
   return degree * (Math.PI / 180);
 };
 
 const SENSOR_NUM = 15;
+const FRAME_NUM_TO_SEND = 120;
 
 export default class CarController {
   constructor(scene) {
     this.scene = scene;
     this.car = scene.car;
     this.frame = 0;
+
+    this.scene.input.keyboard.on("keydown-X", event => {
+      if (GameStore.isSimulationRunning) {
+        this.endSimulation();
+      }
+    });
   }
 
   update(x, y) {
-    if (GameStore.isSimulationRunning()) {
+    if (GameStore.isSimulationRunning) {
       this.simulationUpdate(x, y);
-      this.scene.input.keyboard.on("keydown-X", function(event) {
-        this.endSimulation();
-      });
     } else if (
-      UserStore.getPlayerId != null &&
+      UserStore.getPlayerId() != null &&
       GameStore.getOperation() == "NO"
     ) {
       GameStore.createSimulation(UserStore.getPlayerId());
@@ -84,7 +89,8 @@ export default class CarController {
     let frameData = {
       frame: this.frame,
       sensors: sensorData,
-      velocity: this.car.body.body.velocity,
+      velocity_x: this.car.body.body.velocity.x,
+      velocity_y: this.car.body.body.velocity.y,
       angle: this.car.body.angle,
       throttle: y,
       steering: x
@@ -92,8 +98,8 @@ export default class CarController {
 
     GameStore.addFrame(frameData);
 
-    if (this.frame % 30 === 0) {
-      GameStore.sendFrames(this.frame);
+    if (this.frame % FRAME_NUM_TO_SEND === 0) {
+      GameStore.sendFrames(this.frame,FRAME_NUM_TO_SEND);
     }
   }
 

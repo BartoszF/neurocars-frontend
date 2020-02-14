@@ -1,4 +1,4 @@
-import { action, observable, toJS } from "mobx";
+import { action, observable, toJS, computed } from "mobx";
 import SimulationService from "../service/SimulationService";
 
 class GameStore {
@@ -7,7 +7,7 @@ class GameStore {
   @observable simulationRunning = false;
   @observable operation = "NO";
 
-  isSimulationRunning() {
+  @computed get isSimulationRunning() {
     return toJS(this.simulationRunning);
   }
   getOperation() {
@@ -48,7 +48,7 @@ class GameStore {
 
   @action
   sendFrames(framesNum, limit = 30) {
-    let frames = toJS(this.frameData).slice(0, 30);
+    let frames = toJS(this.frameData).slice(0, limit);
     let body = { expectedSimSteps: framesNum, simSteps: frames };
 
     SimulationService.patchSimulation(this.simulation, body).then(
@@ -70,7 +70,7 @@ class GameStore {
   @action
   endSimulation(frame) {
     this.simulationRunning = false;
-    this.sendFrames(frame, this.frameData.length-1);
+    this.sendFrames(frame, this.frameData.length);
   }
 }
 

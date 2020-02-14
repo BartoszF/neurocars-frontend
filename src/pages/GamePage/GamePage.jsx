@@ -39,7 +39,9 @@ export const GamePage = observer(props => {
       autoCenter: Phaser.Scale.CENTER_BOTH
     },
     fps: 30,
-    scene: scene
+    scene: scene,
+    gameStore: gameStore,
+    userStore: userStore,
   };
 
   return (
