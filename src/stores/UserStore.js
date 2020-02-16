@@ -2,7 +2,7 @@ import { action, observable, toJS } from "mobx";
 import UserService from "../service/UserService";
 
 class UserStore {
-  @observable playerId = null;
+  @observable player = null;
   @observable operation = "NO"; //TODO do some enum
 
   //TODO: temporary?
@@ -12,7 +12,7 @@ class UserStore {
     UserService.getPlayerByUsername(username).then(
       action("getPlayerByUsername", data => {
         this.operation = "SUCCES"
-        this.playerId = data;
+        this.player = data;
         console.log(data);
       }),
       action("error", error => {
@@ -26,8 +26,8 @@ class UserStore {
     return toJS(this.operation);
   }
 
-  getPlayerId(){
-    return toJS(this.playerId);
+  getPlayer(){
+    return toJS(this.player);
   }
 
   @action setUser(userData) {

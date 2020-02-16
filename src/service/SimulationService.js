@@ -13,11 +13,11 @@ const SimulationService = {
     });
   },
 
-  createSimulation(playerId) {
+  createSimulation(player) {
     return request({
           url: `/simulations`,
           method: "POST",
-          body: JSON.stringify(playerId)
+          body: JSON.stringify(player)
       })
   },
 

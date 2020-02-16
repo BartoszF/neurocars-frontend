@@ -7,6 +7,7 @@ import GameStore from "../../stores/GameStore";
 export const scene = {
   preload: function() {
     this.load.image("wheel", "/assets/wheel.png");
+    this.load.image("car", "/assets/cars/Audi.png")
   },
 
   create: function() {
@@ -36,7 +37,36 @@ export const scene = {
 
     this.carController = new CarSimpleController(this);
 
-    this.matter.add.rectangle(0, 0, 1000, 1000, {isStatic: true, label: "Center block"});
+    var centerBlock = this.matter.add.rectangle(0, 0, 1000, 1000, {isStatic: true, label: "Center block"});
+
+    var imgBlock = this.matter.add.image(0,0, "wheel");
+    imgBlock.displayWidth = 1000;
+    imgBlock.displayHeight = 1000;
+    imgBlock.setExistingBody(centerBlock);
+
+    var leftWall = this.matter.add.rectangle(-2000,0, 100,4000);
+    imgBlock = this.matter.add.image(0,0, "wheel");
+    imgBlock.displayWidth = 100;
+    imgBlock.displayHeight = 4000;
+    imgBlock.setExistingBody(leftWall);
+
+    var rightWall = this.matter.add.rectangle(2000,0, 100,4000);
+    imgBlock = this.matter.add.image(0,0, "wheel");
+    imgBlock.displayWidth = 100;
+    imgBlock.displayHeight = 4000;
+    imgBlock.setExistingBody(rightWall);
+
+    var topWall = this.matter.add.rectangle(0,-2000, 4000,100);
+    imgBlock = this.matter.add.image(0,0, "wheel");
+    imgBlock.displayWidth = 4000;
+    imgBlock.displayHeight = 100;
+    imgBlock.setExistingBody(topWall);
+
+    var bottomWall = this.matter.add.rectangle(0,2000, 4000,100);
+    imgBlock = this.matter.add.image(0,0, "wheel");
+    imgBlock.displayWidth = 4000;
+    imgBlock.displayHeight = 100;
+    imgBlock.setExistingBody(bottomWall);
 
     this.cameras.main.setZoom(0.3);
     this.cameras.main.startFollow(this.car.body, false, 0.6, 0.6, 0, 0);

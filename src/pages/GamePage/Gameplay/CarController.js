@@ -28,10 +28,10 @@ export default class CarController {
     if (GameStore.isSimulationRunning) {
       this.simulationUpdate(x, y);
     } else if (
-      UserStore.getPlayerId() != null &&
+      UserStore.getPlayer() != null &&
       GameStore.getOperation() == "NO"
     ) {
-      GameStore.createSimulation(UserStore.getPlayerId());
+      GameStore.createSimulation(UserStore.getPlayer());
     }
   }
 
@@ -87,10 +87,10 @@ export default class CarController {
     }
 
     let frameData = {
-      frame: this.frame,
-      sensors: sensorData,
-      velocity_x: this.car.body.body.velocity.x,
-      velocity_y: this.car.body.body.velocity.y,
+      stepNumber: this.frame,
+      sensorData: sensorData,
+      velocityX: this.car.body.body.velocity.x,
+      velocityY: this.car.body.body.velocity.y,
       angle: this.car.body.angle,
       throttle: y,
       steering: x

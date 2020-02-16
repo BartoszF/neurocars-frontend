@@ -8,7 +8,7 @@ const UserService = {
     // }
 
     return request({
-      url: `/players?username=${username}`,
+      url: `/players/${username}`,
       method: "GET"
     });
   },
