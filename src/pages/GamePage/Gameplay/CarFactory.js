@@ -34,9 +34,9 @@ export default function createCar(carConfig, phaser) {
     label: "Car body"
   });
 
-  var carBody = phaser.matter.add.image(0, 0, "wheel");
-  carBody.displayWidth = 100;
-  carBody.displayHeight = 62;
+  var carBody = phaser.matter.add.image(0, 0, "car");
+  carBody.displayWidth = 120;
+  carBody.displayHeight = 140;
 
   carBody.setExistingBody(carPhysicsBody);
   //   carBody.setCollisionCategory(collisionCategories["BODY"]);

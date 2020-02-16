@@ -47,13 +47,16 @@ class GameStore {
   }
 
   @action
-  sendFrames(framesNum, limit = 30) {
+  sendFrames(framesNum, limit = 30, endSimulation = false) {
     let frames = toJS(this.frameData).slice(0, limit);
-    let body = { expectedSimSteps: framesNum, simSteps: frames };
+    let body = { simulationID: this.simulation.simulationID,simSteps: frames };
 
-    SimulationService.patchSimulation(this.simulation, body).then(
+    if (endSimulation) {
+      body.expectedSimSteps = framesNum;
+    }
+
+    SimulationService.patchSimulation(this.simulation.simulationID, body).then(
       action("sendFrames", data => {
-        //this.conversations.push(data);
         //this.lastOperation = "SUCCES";
         this.frameData.splice(0, limit);
       }),
@@ -70,7 +73,7 @@ class GameStore {
   @action
   endSimulation(frame) {
     this.simulationRunning = false;
-    this.sendFrames(frame, this.frameData.length);
+    this.sendFrames(frame, this.frameData.length, true);
   }
 }
 

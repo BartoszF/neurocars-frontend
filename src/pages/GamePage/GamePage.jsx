@@ -19,7 +19,7 @@ export const GamePage = observer(props => {
   let {gameStore, userStore} = useStores();
 
   useEffect(() => {
-    if(userStore.userData == null && userStore.operation === "NO") {
+    if(userStore.player == null && userStore.operation === "NO") {
       userStore.getPlayerByUsername("KebabuTurka");
     }
   })
@@ -29,7 +29,7 @@ export const GamePage = observer(props => {
     physics: {
       default: "matter",
       matter: {
-        debug: true
+        debug: false
       }
     },
     scale: {
