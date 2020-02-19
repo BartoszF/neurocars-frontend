@@ -14,7 +14,7 @@ const LoginButton = styled(Button)`
   width: 100%;
 `;
 
-const LoginForm = props => {
+const RegisterForm = props => {
   let handleSubmit = e => {
     e.preventDefault();
     props.form.validateFields((err, values) => {
@@ -34,6 +34,22 @@ const LoginForm = props => {
           <Input
             prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
             placeholder="Username"
+          />
+        )}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator("email", {
+          rules: [
+            {
+              type: "email",
+              required: true,
+              message: "Please input your email!"
+            }
+          ]
+        })(
+          <Input
+            prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
+            placeholder="Email address"
           />
         )}
       </Form.Item>
@@ -69,4 +85,4 @@ const LoginForm = props => {
   );
 };
 
-export default Form.create({ name: "login_form" })(LoginForm);
+export default Form.create({ name: "register_form" })(RegisterForm);

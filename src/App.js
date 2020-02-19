@@ -16,6 +16,7 @@ import userStore from "./stores/UserStore";
 import gameStore from "./stores/GameStore";
 import { Navbar } from "./components/common/Navbar";
 import { LoginPage } from './pages/LoginPage/LoginPage';
+import { RegisterPage } from './pages/RegisterPage/RegisterPage';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -46,6 +47,7 @@ function App() {
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/gameTest" component={GamePage} />
                 <Route exact path="/login" component={LoginPage} />
+                <Route exact path="/register" component={RegisterPage} />
               </Switch>
             </Content>
             <Footer>DUPSKO</Footer>
