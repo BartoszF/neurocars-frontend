@@ -1,7 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-import { Form, Icon, Input, Button, Checkbox, Col, Row } from "antd";
-import LoginForm from "../../components/registration/RegisterForm";
+import { Col } from "antd";
 import RegisterForm from "../../components/registration/RegisterForm";
 import { PaddedRow } from "../../components/common/PaddedRow";
 

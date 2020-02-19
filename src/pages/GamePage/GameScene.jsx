@@ -1,8 +1,6 @@
-import Phaser from "phaser";
 import createCar from "./Gameplay/CarFactory";
 import { collisionCategories } from "./Gameplay/Constants";
 import CarSimpleController from "./Gameplay/CarSimpleController";
-import GameStore from "../../stores/GameStore";
 
 export const scene = {
   preload: function() {

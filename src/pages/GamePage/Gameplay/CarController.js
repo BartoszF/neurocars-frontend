@@ -2,7 +2,6 @@ import Phaser from "phaser";
 import raycast from "./ray";
 import GameStore from "../../../stores/GameStore";
 import UserStore from "../../../stores/UserStore";
-import { observe } from "mobx-react";
 
 let degreeToRad = function(degree) {
   return degree * (Math.PI / 180);
@@ -29,7 +28,7 @@ export default class CarController {
       this.simulationUpdate(x, y);
     } else if (
       UserStore.getPlayer() != null &&
-      GameStore.getOperation() == "NO"
+      GameStore.getOperation() === "NO"
     ) {
       GameStore.createSimulation(UserStore.getPlayer());
     }
@@ -46,7 +45,7 @@ export default class CarController {
 
     let allBodies = this.scene.matter.world
       .getAllBodies()
-      .filter(body => body.label != "Car body");
+      .filter(body => body.label !== "Car body");
     bodies = bodies.concat(allBodies);
 
     //Shoot these rays!

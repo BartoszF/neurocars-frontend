@@ -8,11 +8,6 @@ export default class CarSimpleController extends CarController {
   update(x, y) {
     super.update(x,y);
 
-    let velocity = new Phaser.Math.Vector2(
-      this.car.body.body.velocity.x,
-      this.car.body.body.velocity.y
-    );
-
     let lat = this.getLateralVelocity().negate();
     let impulse = lat.scale(this.car.body.body.mass);
 
