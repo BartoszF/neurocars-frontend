@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { observer, Provider } from "mobx-react";
 
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 import { Layout } from "antd";
 
 import { IntlProvider } from "react-intl";
@@ -15,6 +15,7 @@ import { GamePage } from "./pages/GamePage/GamePage";
 import userStore from "./stores/UserStore";
 import gameStore from "./stores/GameStore";
 import { Navbar } from "./components/common/Navbar";
+import { LoginPage } from './pages/LoginPage/LoginPage';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -35,20 +36,21 @@ function App() {
       messages={translations[localeProp]}
     >
       <Provider {...stores}>
-        <Layout>
-          <Header>
-            <Navbar />
-          </Header>
-          <Content>
-            <Router>
+        <Router>
+          <Layout>
+            <Header>
+              <Navbar />
+            </Header>
+            <Content>
               <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/gameTest" component={GamePage} />
+                <Route exact path="/login" component={LoginPage} />
               </Switch>
-            </Router>
-          </Content>
-          <Footer>DUPSKO</Footer>
-        </Layout>
+            </Content>
+            <Footer>DUPSKO</Footer>
+          </Layout>
+        </Router>
       </Provider>
     </IntlProvider>
   );
