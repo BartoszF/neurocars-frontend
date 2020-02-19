@@ -7,11 +7,9 @@ import { observer } from "mobx-react";
 import useStores from '../../useStores';
 
 const GameWrapper = styled.div`
-  width: 100%;
-  height: 100%;
   margin-left: auto;
   margin-right: auto;
-  position: absolute;
+  height:800px;
 `;
 
 export const GamePage = observer(props => {

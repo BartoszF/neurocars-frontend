@@ -3,8 +3,16 @@ import UserService from "../service/UserService";
 
 class UserStore {
   @observable player = null;
+  @observable authenticated = false;
   @observable operation = "NO"; //TODO do some enum
 
+  @action
+  clearContext() {
+    this.authenticated = false;
+    this.player = null;
+    this.operation = "NO";
+  }
+  
   //TODO: temporary?
   @action
   getPlayerByUsername(username) {
@@ -13,6 +21,7 @@ class UserStore {
       action("getPlayerByUsername", data => {
         this.operation = "SUCCES"
         this.player = data;
+        this.authenticated = true;
         console.log(data);
       }),
       action("error", error => {
