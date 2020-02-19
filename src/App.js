@@ -18,7 +18,7 @@ import { Navbar } from "./components/common/Navbar";
 import { LoginPage } from './pages/LoginPage/LoginPage';
 import { RegisterPage } from './pages/RegisterPage/RegisterPage';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Footer, Content } = Layout;
 
 //In future this would be set by a control on the page and saved to store
 const localeProp = "en";

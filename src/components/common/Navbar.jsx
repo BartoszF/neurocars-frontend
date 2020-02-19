@@ -43,7 +43,7 @@ export const Navbar = observer(props => {
       onClick={clickCallback}
       theme="dark"
       mode="horizontal"
-      defaultSelectedKeys={["index"]}
+      defaultSelectedKeys={[selectedKey]}
     >
       {userMenu}
     </RightMenu>

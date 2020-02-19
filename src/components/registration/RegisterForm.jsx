@@ -1,13 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { Form, Icon, Input, Button, Checkbox } from "antd";
+import { Form, Icon, Input, Button } from "antd";
 
 const StyledForm = styled(Form)`
   max-width: 500px;
-`;
-
-const ForgotLink = styled.a`
-  float: right;
 `;
 
 const LoginButton = styled(Button)`
@@ -65,21 +61,13 @@ const RegisterForm = props => {
         )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator("remember", {
-          valuePropName: "checked",
-          initialValue: true
-        })(<Checkbox>Remember me</Checkbox>)}
-        <ForgotLink className="login-form-forgot" href="">
-          Forgot password
-        </ForgotLink>
         <LoginButton
           type="primary"
           htmlType="submit"
           className="login-form-button"
         >
-          Log in
+          Register
         </LoginButton>
-        Or <a href="">register now!</a>
       </Form.Item>
     </StyledForm>
   );

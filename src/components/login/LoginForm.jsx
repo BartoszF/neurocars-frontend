@@ -53,7 +53,7 @@ const LoginForm = props => {
           valuePropName: "checked",
           initialValue: true
         })(<Checkbox>Remember me</Checkbox>)}
-        <ForgotLink className="login-form-forgot" href="">
+        <ForgotLink className="login-form-forgot" href="#">
           Forgot password
         </ForgotLink>
         <LoginButton
@@ -63,7 +63,7 @@ const LoginForm = props => {
         >
           Log in
         </LoginButton>
-        Or <a href="">register now!</a>
+        Or <a href="/register">register now!</a>
       </Form.Item>
     </StyledForm>
   );
