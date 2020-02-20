@@ -4,23 +4,21 @@ import { IonPhaser } from "@ion-phaser/react";
 import { scene } from "./GameScene.jsx";
 import styled from "styled-components";
 import { observer } from "mobx-react";
-import useStores from '../../useStores';
+import useStores from "../../useStores";
 
 const GameWrapper = styled.div`
   margin-left: auto;
   margin-right: auto;
-  height:800px;
+  height: 800px;
 `;
 
 export const GamePage = observer(props => {
   let [init, setInit] = useState(true);
-  let {gameStore, userStore} = useStores();
+  let { gameStore, userStore } = useStores();
 
   useEffect(() => {
-    if(userStore.player == null && userStore.operation === "NO") {
-      userStore.getPlayerByUsername("KebabuTurka");
-    }
-  })
+    userStore.getPlayerByUsername("KebabuTurka");
+  }, []);
 
   const game = {
     type: Phaser.AUTO,
@@ -39,7 +37,7 @@ export const GamePage = observer(props => {
     fps: 30,
     scene: scene,
     gameStore: gameStore,
-    userStore: userStore,
+    userStore: userStore
   };
 
   return (
