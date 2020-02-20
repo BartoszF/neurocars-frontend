@@ -2,7 +2,6 @@
   "name": "neurocars",
   "version": "0.1.0",
   "homepage": "https://neurocars.herokuapp.com/",
-  "proxy": "https://neurocars-backend.herokuapp.com/",
   "private": false,
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.8.3",
