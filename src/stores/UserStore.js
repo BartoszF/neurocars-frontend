@@ -1,5 +1,8 @@
-import { action, observable, toJS } from "mobx";
+import { action, observable, toJS, computed } from "mobx";
 import UserService from "../service/UserService";
+import md5 from "md5";
+
+const GRAVATAR_URL = "https://www.gravatar.com/avatar/";
 
 class UserStore {
   @observable player = null;
@@ -12,14 +15,14 @@ class UserStore {
     this.player = null;
     this.operation = "NO";
   }
-  
+
   //TODO: temporary?
   @action
   getPlayerByUsername(username) {
-    this.operation = "PENDING"
+    this.operation = "PENDING";
     UserService.getPlayerByUsername(username).then(
       action("getPlayerByUsername", data => {
-        this.operation = "SUCCES"
+        this.operation = "SUCCES";
         this.player = data;
         this.authenticated = true;
         console.log(data);
@@ -35,8 +38,18 @@ class UserStore {
     return toJS(this.operation);
   }
 
-  getPlayer(){
+  getPlayer() {
     return toJS(this.player);
+  }
+
+  @computed
+  get gravatarUrl() {
+    if (this.player) {
+      let emailHash = md5(this.player.email.toLowerCase().trim());
+
+      return GRAVATAR_URL + emailHash;
+    }
+    return "";
   }
 
   @action setUser(userData) {

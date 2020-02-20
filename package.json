@@ -2,6 +2,7 @@
   "name": "neurocars",
   "version": "0.1.0",
   "homepage": "https://neurocars.herokuapp.com/",
+  "proxy": "https://neurocars-backend.herokuapp.com/",
   "private": false,
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.8.3",
@@ -14,6 +15,7 @@
     "babel-plugin-react-intl": "^5.1.17",
     "canvas-prebuilt": "^2.0.0-alpha.14",
     "customize-cra": "^0.9.1",
+    "md5": "^2.2.1",
     "mobx": "^5.15.2",
     "mobx-react": "^6.1.5",
     "phaser": "^3.22.0",
@@ -57,7 +59,9 @@
     "react-intl-translations-manager": "^5.0.3"
   },
   "jest": {
-    "setupFiles": ["jest-canvas-mock"]
+    "setupFiles": [
+      "jest-canvas-mock"
+    ]
   },
   "engines": {
     "node": "10.17.0"
