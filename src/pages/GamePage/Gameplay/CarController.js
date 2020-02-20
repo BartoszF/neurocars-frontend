@@ -86,19 +86,22 @@ export default class CarController {
     }
 
     let frameData = {
-      stepNumber: this.frame,
-      sensorData: sensorData,
-      velocityX: this.car.body.body.velocity.x,
-      velocityY: this.car.body.body.velocity.y,
-      angle: this.car.body.angle,
-      throttle: y,
-      steering: x
+      sensorData: {
+        velocityX: this.car.body.body.velocity.x,
+        velocityY: this.car.body.body.velocity.y,
+        angle: this.car.body.angle,
+        distanceData: sensorData
+      },
+      carControls: {
+        throttle: y,
+        steering: x
+      }
     };
 
     GameStore.addFrame(frameData);
 
     if (this.frame % FRAME_NUM_TO_SEND === 0) {
-      GameStore.sendFrames(this.frame,FRAME_NUM_TO_SEND);
+      GameStore.sendFrames(this.frame, FRAME_NUM_TO_SEND);
     }
   }
 
