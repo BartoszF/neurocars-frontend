@@ -21,9 +21,9 @@ export const Navbar = observer(props => {
 
   const userSubMenu = (
     <span>
-      <LeagueBadge userStore={userStore} />
+      {/* <LeagueBadge userStore={userStore} />
       <PlayerName userStore={userStore} />
-      <PlayerAvatar userStore={userStore} />
+      <PlayerAvatar userStore={userStore} /> */}
     </span>
   );
 
