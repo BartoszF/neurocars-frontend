@@ -16,9 +16,9 @@ export const GamePage = observer(props => {
   let [init, setInit] = useState(true);
   let { gameStore, userStore } = useStores();
 
-  useEffect(() => {
-    userStore.getPlayerByUsername("KebabuTurka");
-  }, []);
+  // useEffect(() => {
+  //   userStore.getPlayerByUsername("KebabuTurka");
+  // }, []);
 
   const game = {
     type: Phaser.AUTO,

@@ -5,28 +5,46 @@ import { PaddedRow25px } from "../../components/common/PaddedRow";
 import { PlayerAvatar } from "../../components/common/player/PlayerAvatar";
 import useStores from "../../useStores";
 import { PlayerName } from "../../components/common/player/PlayerName";
+import { FormattedMessage } from "react-intl.macro";
+import { useEffect } from "react";
 
 export const Dashboard = observer(props => {
   let data = ["Player1", "Player2", "Player3", "Player4", "Player5", "Player5"];
 
-  const { userStore } = useStores();
+  const { userStore, localeStore } = useStores();
+
+  useEffect(() => {
+    localeStore.locale = "pl";
+  }, []);
 
   return (
     <div>
       <PaddedRow25px>
         <Col span={2} />
         <Col span={14}>
-          <h3>Events you might be interested!</h3>
+          <h3>
+            <FormattedMessage
+              id="dashboard.newEventsHeader"
+              defaultMessage="Events you might be interested!"
+            />
+          </h3>
           <div>
-            <PlayerAvatar userStore={userStore} />
-            <PlayerName userStore={userStore} />
+            <PlayerAvatar player={userStore.player} />
+            <PlayerName player={userStore.player} />
             <span>is awesome!</span>
           </div>
         </Col>
         <Col span={6}>
           <List
             size="small"
-            header={<div>Ranking</div>}
+            header={
+              <div>
+                <FormattedMessage
+                  id="dashboard.rankingTableHeader"
+                  defaultMessage="Ranking"
+                />
+              </div>
+            }
             bordered
             dataSource={data}
             renderItem={item => <List.Item>{item}</List.Item>}

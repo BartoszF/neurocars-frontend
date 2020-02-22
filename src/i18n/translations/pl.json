@@ -1,3 +1,10 @@
 {
-  "app.title": "NeuroCars"
+  "app.title": "NeuroCars",
+  "dashboard.newEventsHeader": "Wydarzenia, które mogą Cię zainterestować!",
+  "dashboard.rankingTableHeader": "Ranking",
+  "navbar.dashboard": "Dashboard",
+  "navbar.home": "Strona główna",
+  "navbar.login": "Login",
+  "navbar.profile": "Profil",
+  "navbar.register": "Rejestracja"
 }

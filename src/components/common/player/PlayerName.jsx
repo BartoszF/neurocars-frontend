@@ -7,8 +7,8 @@ const UserNameSpan = styled.span`
 `;
 
 export const PlayerName = props => {
-  const userName = props.userStore.player
-    ? props.userStore.player.username
+  const userName = props.player
+    ? props.player.username
     : "";
   return <UserNameSpan>{userName}</UserNameSpan>;
 };
