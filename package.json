@@ -2,6 +2,7 @@
   "name": "neurocars",
   "version": "0.1.0",
   "homepage": "https://neurocars.herokuapp.com/",
+  "proxy": "https://neurocars-backend.herokuapp.com/",
   "private": false,
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.8.3",
@@ -14,10 +15,13 @@
     "babel-plugin-react-intl": "^5.1.17",
     "canvas-prebuilt": "^2.0.0-alpha.14",
     "customize-cra": "^0.9.1",
+    "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
     "localforage": "^1.7.3",
     "md5": "^2.2.1",
     "mobx": "^5.15.2",
     "mobx-react": "^6.1.5",
+    "path": "^0.12.7",
     "phaser": "^3.22.0",
     "react": "^16.12.0",
     "react-app-rewired": "^2.1.5",
@@ -32,7 +36,8 @@
     "styled-components": "^5.0.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "npm run build && node server.js",
+    "dev": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
