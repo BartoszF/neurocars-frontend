@@ -7,36 +7,26 @@ import "antd/dist/antd.css";
 import { Layout } from "antd";
 
 import { IntlProvider } from "react-intl";
-import translations from "./i18n/locales";
 
 import { HomePage } from "./pages/HomePage/HomePage";
 import { GamePage } from "./pages/GamePage/GamePage";
 
-import userStore from "./stores/UserStore";
-import gameStore from "./stores/GameStore";
 import { Navbar } from "./components/common/Navbar";
-import { LoginPage } from './pages/LoginPage/LoginPage';
-import { RegisterPage } from './pages/RegisterPage/RegisterPage';
+import { LoginPage } from "./pages/LoginPage/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage/RegisterPage";
+import RootStore from "./stores/RootStore";
 
 const { Header, Footer, Content } = Layout;
 
-//In future this would be set by a control on the page and saved to store
-const localeProp = "en";
-
-const stores = {
-  userStore,
-  gameStore
-};
-
 function App() {
   return (
-    <IntlProvider
-      locale={localeProp}
-      defaultLocale="en"
-      key={localeProp}
-      messages={translations[localeProp]}
-    >
-      <Provider {...stores}>
+    <Provider rootStore={RootStore}>
+      <IntlProvider
+        locale={RootStore.localeStore.currentLocale}
+        defaultLocale="en"
+        key={RootStore.localeStore.currentLocale}
+        messages={RootStore.localeStore.messagesArray}
+      >
         <Router>
           <Layout>
             <Header>
@@ -53,8 +43,8 @@ function App() {
             <Footer>DUPSKO</Footer>
           </Layout>
         </Router>
-      </Provider>
-    </IntlProvider>
+      </IntlProvider>
+    </Provider>
   );
 }
 

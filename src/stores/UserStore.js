@@ -1,13 +1,16 @@
-import { action, observable, toJS, computed } from "mobx";
+import { action, observable, toJS } from "mobx";
 import UserService from "../service/UserService";
-import md5 from "md5";
+import LocaleStore from './LocaleStore';
 
-const GRAVATAR_URL = "https://www.gravatar.com/avatar/";
-
-class UserStore {
-  @observable player = null;
+export default class UserStore {
+  @observable player = {};
   @observable authenticated = false;
   @observable operation = "NO"; //TODO do some enum
+  @observable language = "en";
+
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
 
   @action
   clearContext() {
@@ -42,19 +45,11 @@ class UserStore {
     return toJS(this.player);
   }
 
-  @computed
-  get gravatarUrl() {
-    if (this.player) {
-      let emailHash = md5(this.player.email.toLowerCase().trim());
-
-      return GRAVATAR_URL + emailHash;
-    }
-    return "";
+  getLanguage() {
+    return toJS(this.language);
   }
 
   @action setUser(userData) {
     this.userData = userData;
   }
 }
-
-export default new UserStore();

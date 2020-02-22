@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import raycast from "./ray";
 import GameStore from "../../../stores/GameStore";
-import UserStore from "../../../stores/UserStore";
+import RootStore from "../../../stores/RootStore";
 
 let degreeToRad = function(degree) {
   return degree * (Math.PI / 180);
@@ -27,10 +27,10 @@ export default class CarController {
     if (GameStore.isSimulationRunning) {
       this.simulationUpdate(x, y);
     } else if (
-      UserStore.getPlayer() != null &&
+      RootStore.userStore.getPlayer() != null &&
       GameStore.getOperation() === "NO"
     ) {
-      GameStore.createSimulation(UserStore.getPlayer());
+      GameStore.createSimulation(RootStore.userStore.getPlayer());
     }
   }
 

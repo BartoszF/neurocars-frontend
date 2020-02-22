@@ -1,11 +1,15 @@
 import { action, observable, toJS, computed } from "mobx";
 import SimulationService from "../service/SimulationService";
 
-class GameStore {
+export default class GameStore {
   @observable frameData = [];
   @observable simulation = {};
   @observable simulationRunning = false;
   @observable operation = "NO";
+
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
 
   @computed get isSimulationRunning() {
     return toJS(this.simulationRunning);
@@ -49,7 +53,7 @@ class GameStore {
   @action
   sendFrames(framesNum, limit = 30, endSimulation = false) {
     let frames = toJS(this.frameData).slice(0, limit);
-    let body = { simulationID: this.simulation.simulationID,simSteps: frames };
+    let body = { simulationID: this.simulation.simulationID, simSteps: frames };
 
     if (endSimulation) {
       body.expectedSimSteps = framesNum;
@@ -76,5 +80,3 @@ class GameStore {
     this.sendFrames(frame, this.frameData.length, true);
   }
 }
-
-export default new GameStore();
