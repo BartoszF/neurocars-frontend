@@ -1,4 +1,4 @@
-import { observable, computed } from 'mobx';
+import { observable, computed, action } from 'mobx';
 import translations from "../i18n/locales";
 import { toJS } from 'mobx';
 
@@ -9,6 +9,11 @@ export default class LocaleStore {
     constructor(rootStore){
         this.rootStore = rootStore;
         this.messages = translations
+    }
+
+    @action
+    setCurrentLocale(language) {
+        this.locale = language;
     }
 
     @computed get currentLocale() {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Phaser from "phaser";
 import { IonPhaser } from "@ion-phaser/react";
 import { scene } from "./GameScene.jsx";
@@ -13,7 +13,7 @@ const GameWrapper = styled.div`
 `;
 
 export const GamePage = observer(props => {
-  let [init, setInit] = useState(true);
+  let [init] = useState(true);
   let { gameStore, userStore } = useStores();
 
   // useEffect(() => {

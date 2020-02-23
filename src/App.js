@@ -20,13 +20,13 @@ const { Header, Footer, Content } = Layout;
 
 function App() {
   return (
-    <Provider rootStore={RootStore}>
-      <IntlProvider
-        locale={RootStore.localeStore.currentLocale}
-        defaultLocale="en"
-        key={RootStore.localeStore.currentLocale}
-        messages={RootStore.localeStore.messagesArray}
-      >
+    <IntlProvider
+      locale={RootStore.localeStore.currentLocale}
+      defaultLocale="en"
+      key={RootStore.localeStore.currentLocale}
+      messages={RootStore.localeStore.messagesArray}
+    >
+      <Provider rootStore={RootStore}>
         <Router>
           <Layout>
             <Header>
@@ -43,8 +43,8 @@ function App() {
             <Footer>DUPSKO</Footer>
           </Layout>
         </Router>
-      </IntlProvider>
-    </Provider>
+      </Provider>
+    </IntlProvider>
   );
 }
 
