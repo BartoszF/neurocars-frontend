@@ -15,18 +15,19 @@ import { Navbar } from "./components/common/Navbar";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage/RegisterPage";
 import RootStore from "./stores/RootStore";
+import { SimulationPage } from './pages/Simulation/SimulationPage';
 
 const { Header, Footer, Content } = Layout;
 
 function App() {
   return (
-    <Provider rootStore={RootStore}>
-      <IntlProvider
-        locale={RootStore.localeStore.currentLocale}
-        defaultLocale="en"
-        key={RootStore.localeStore.currentLocale}
-        messages={RootStore.localeStore.messagesArray}
-      >
+    <IntlProvider
+      locale={RootStore.localeStore.currentLocale}
+      defaultLocale="en"
+      key={RootStore.localeStore.currentLocale}
+      messages={RootStore.localeStore.messagesArray}
+    >
+      <Provider rootStore={RootStore}>
         <Router>
           <Layout>
             <Header>
@@ -38,13 +39,14 @@ function App() {
                 <Route exact path="/gameTest" component={GamePage} />
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/register" component={RegisterPage} />
+                <Route path="/simulation/:id?" component={SimulationPage} />
               </Switch>
             </Content>
             <Footer>DUPSKO</Footer>
           </Layout>
         </Router>
-      </IntlProvider>
-    </Provider>
+      </Provider>
+    </IntlProvider>
   );
 }
 

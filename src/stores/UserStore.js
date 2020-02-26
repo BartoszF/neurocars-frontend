@@ -1,15 +1,32 @@
-import { action, observable, toJS } from "mobx";
+import { action, observable, toJS, computed } from "mobx";
 import UserService from "../service/UserService";
-import LocaleStore from './LocaleStore';
+
+import localforage from "localforage";
 
 export default class UserStore {
   @observable player = {};
   @observable authenticated = false;
   @observable operation = "NO"; //TODO do some enum
-  @observable language = "en";
+  store = null;
 
   constructor(rootStore) {
     this.rootStore = rootStore;
+    this.store = localforage.createInstance({
+      name: "userStore"
+    });
+
+    this.store
+      .getItem("player")
+      .then(player => {
+        if (player != null) {
+          this.player = player;
+          this.authenticated = true;
+        }
+        console.log(player);
+      })
+      .catch(err => {
+        console.log("NO PLAYER IN STORE");
+      });
   }
 
   @action
@@ -28,6 +45,9 @@ export default class UserStore {
         this.operation = "SUCCES";
         this.player = data;
         this.authenticated = true;
+        this.store.setItem("player", this.player).catch(err => {
+          console.log(err);
+        });
         console.log(data);
       }),
       action("error", error => {
@@ -41,15 +61,15 @@ export default class UserStore {
     return toJS(this.operation);
   }
 
-  getPlayer() {
+  @computed get getPlayer() {
     return toJS(this.player);
   }
 
-  getLanguage() {
-    return toJS(this.language);
-  }
-
-  @action setUser(userData) {
-    this.userData = userData;
+  @action setUser(player) {
+    this.player = player;
+    this.authenticated = true;
+    this.store.setItem("player", this.getPlayer).catch(err => {
+      console.log(err);
+    });
   }
 }

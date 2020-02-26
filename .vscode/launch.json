@@ -9,7 +9,7 @@
             "request": "launch",
             "runtimeExecutable": "/snap/bin/chromium",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost:3000/gameTest",
+            "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}",
             "runtimeArgs": [
                 "--new-window",

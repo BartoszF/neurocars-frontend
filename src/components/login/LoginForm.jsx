@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 const StyledForm = styled(Form)`
   max-width: 500px;
@@ -23,8 +23,13 @@ const LoginForm = props => {
     props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
-        props.userStore.authenticated = true;
-        props.userStore.player = {username: "KebabuTurka", rating: 1000, league: "F", email: values.username};
+        //props.userStore.authenticated = true;
+        props.userStore.setUser({
+          username: "KebabuTurka",
+          rating: 1000,
+          league: "F",
+          email: values.username
+        });
         history.push("/");
       }
     });

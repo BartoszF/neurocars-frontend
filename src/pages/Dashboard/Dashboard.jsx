@@ -6,16 +6,11 @@ import { PlayerAvatar } from "../../components/common/player/PlayerAvatar";
 import useStores from "../../useStores";
 import { PlayerName } from "../../components/common/player/PlayerName";
 import { FormattedMessage } from "react-intl.macro";
-import { useEffect } from "react";
 
 export const Dashboard = observer(props => {
   let data = ["Player1", "Player2", "Player3", "Player4", "Player5", "Player5"];
 
-  const { userStore, localeStore } = useStores();
-
-  useEffect(() => {
-    localeStore.locale = "pl";
-  }, []);
+  const { userStore } = useStores();
 
   return (
     <div>
