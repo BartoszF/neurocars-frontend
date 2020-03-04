@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Form, Icon, Input, Button } from "antd";
+import UserService from '../../service/UserService';
+import { useHistory } from 'react-router-dom';
 
 const StyledForm = styled(Form)`
   max-width: 500px;
@@ -11,11 +13,21 @@ const LoginButton = styled(Button)`
 `;
 
 const RegisterForm = props => {
+  let history = useHistory();
+
   let handleSubmit = e => {
     e.preventDefault();
     props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+
+        let data = {"username": values.username, "email": values.email, "password": values.password}
+        UserService.createUser(data).then((response) => {
+          console.log(response);
+          history.push("/login");
+        }).catch(err => {
+          console.log(err);
+        })
       }
     });
   };

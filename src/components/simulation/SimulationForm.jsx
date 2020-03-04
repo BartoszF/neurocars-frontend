@@ -3,6 +3,8 @@ import { observer } from "mobx-react";
 import styled from "styled-components";
 import { Form, Icon, Input, Button } from "antd";
 import { useHistory } from 'react-router-dom';
+import useStores from '../../useStores';
+import SimulationService from '../../service/SimulationService';
 
 const StyledForm = styled(Form)`
   //max-width: 500px;
@@ -10,12 +12,19 @@ const StyledForm = styled(Form)`
 
 const SimulationForm = observer(props => {
   const history = useHistory();
+  const { userStore } = useStores();
 
   let handleSubmit = e => {
     e.preventDefault();
     props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+
+        SimulationService.createSimulation().then((simulation) => {
+          history.push(`/simulation/${simulation.id}`);
+        }).catch((err) => {
+          console.log(err);
+        })
         
         //props.userStore.authenticated = true;
 

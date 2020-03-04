@@ -34,6 +34,7 @@ export default class UserStore {
     this.authenticated = false;
     this.player = null;
     this.operation = "NO";
+    this.store.removeItem("player");
   }
 
   //TODO: temporary?
@@ -63,6 +64,14 @@ export default class UserStore {
 
   @computed get getPlayer() {
     return toJS(this.player);
+  }
+
+  @computed get isAuthenticated() {
+    return toJS(this.authenticated);
+  }
+
+  @action setAuthenticated(auth) {
+    this.authenticated = auth;
   }
 
   @action setUser(player) {

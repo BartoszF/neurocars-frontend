@@ -1,5 +1,5 @@
 //import { ACCESS_TOKEN } from '../constants';
-import { request } from "./APIUtils";
+import { request, login } from "./APIUtils";
 
 const UserService = {
   getPlayerByUsername(username) {
@@ -12,6 +12,21 @@ const UserService = {
       method: "GET"
     });
   },
+
+  createUser(data) {
+    return request({
+      url: '/players',
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+  },
+
+  login(user) {
+    return login({
+      method: 'POST',
+      body: JSON.stringify(user)
+    })
+  }
 };
 
 export default UserService;
