@@ -17,20 +17,19 @@ export default class CarController {
     this.frame = 0;
 
     this.scene.input.keyboard.on("keydown-X", event => {
-      if (GameStore.isSimulationRunning) {
+      if (RootStore.gameStore.isSimulationRunning) {
         this.endSimulation();
       }
     });
   }
 
   update(x, y) {
-    if (GameStore.isSimulationRunning) {
+    if (RootStore.gameStore.isSimulationRunning) {
       this.simulationUpdate(x, y);
     } else if (
-      RootStore.userStore.getPlayer() != null &&
-      GameStore.getOperation() === "NO"
+      RootStore.gameStore.simulation != null
     ) {
-      GameStore.createSimulation(RootStore.userStore.getPlayer());
+      RootStore.gameStore.startSimulation();
     }
   }
 
@@ -98,15 +97,15 @@ export default class CarController {
       }
     };
 
-    GameStore.addFrame(frameData);
+    RootStore.gameStore.addFrame(frameData);
 
     if (this.frame % FRAME_NUM_TO_SEND === 0) {
-      GameStore.sendFrames(this.frame, FRAME_NUM_TO_SEND);
+      RootStore.gameStore.sendFrames(this.frame, FRAME_NUM_TO_SEND);
     }
   }
 
   endSimulation() {
-    GameStore.endSimulation(this.frame);
+    RootStore.gameStore.endSimulation(this.frame);
   }
 
   getForwardVector() {

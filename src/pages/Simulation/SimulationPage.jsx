@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import SimulationForm from "../../components/simulation/SimulationForm";
 import { Row, Col } from "antd";
+import SimulationService from '../../service/SimulationService';
+import { SimulationView } from '../../components/simulation/SimulationView';
+import { PaddedRow25px } from "../../components/common/PaddedRow";
 
 export const SimulationPage = observer(props => {
   let simId = props.match.params.id;
@@ -11,19 +14,20 @@ export const SimulationPage = observer(props => {
 
   useEffect(() => {
     if (simId) {
-      //TODO: Add service for simulation
-      setSimulation({ id: simId, name: "TEST" });
+      SimulationService.getSimulation(simId).then((simulation) => {
+        setSimulation(simulation);
+      })
     }
   }, [simId]);
 
   return (
-    <Row>
+    <PaddedRow25px>
       <Col span={8} />
       <Col span={8}>
         <h3>{simulation ? simulation.name : "Create simulation"}</h3>
-        <SimulationForm simulation={simulation} />
+        {simulation ? <SimulationView simulation={simulation} /> : <SimulationForm simulation={simulation} />}
       </Col>
       <Col span={8} />
-    </Row>
+    </PaddedRow25px>
   );
 });

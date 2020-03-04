@@ -1,15 +1,17 @@
-//import { ACCESS_TOKEN } from '../constants';
+import { ACCESS_TOKEN } from '../constants';
 import { BACKEND_URL } from '../constants';
 
 export async function request(options) {
   const headers = new Headers({
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   });
 
-
-//   if (localStorage.getItem(ACCESS_TOKEN)) {
-//     headers.append('Authorization', `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`);
-//   }
+  if (localStorage.getItem(ACCESS_TOKEN)) {
+    headers.append(
+      'Authorization',
+      `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+    );
+  }
 
   const defaults = { headers };
   options = { ...defaults, ...options };
@@ -20,4 +22,16 @@ export async function request(options) {
     return Promise.reject(json);
   }
   return json;
+}
+
+export async function login(options) {
+  const headers = new Headers({
+    'Content-Type': 'application/json'
+  });
+
+  const defaults = { headers };
+  options = { ...defaults, ...options };
+
+  const response = await fetch(`${BACKEND_URL}/login`, options);
+  return response.headers.get('Authorization');
 }

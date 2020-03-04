@@ -25,7 +25,7 @@ export default class GameStore {
   @action
   createSimulation(playerId) {
     this.operation = "PENDING";
-    SimulationService.createSimulation(playerId).then(
+    SimulationService.createSimulation().then(
       action("createSimulation", data => {
         this.simulation = data;
         this.simulationRunning = true;
@@ -50,16 +50,20 @@ export default class GameStore {
     );
   }
 
+  @action setSimulation(simulation) {
+    this.simulation = simulation;
+  }
+
   @action
   sendFrames(framesNum, limit = 30, endSimulation = false) {
     let frames = toJS(this.frameData).slice(0, limit);
-    let body = { simulationID: this.simulation.simulationID, simSteps: frames };
+    let body = { id: this.simulation.id, simSteps: frames };
 
     if (endSimulation) {
       body.expectedSimSteps = framesNum;
     }
 
-    SimulationService.patchSimulation(this.simulation.simulationID, body).then(
+    SimulationService.patchSimulation(this.simulation.id, body).then(
       action("sendFrames", data => {
         //this.lastOperation = "SUCCES";
         this.frameData.splice(0, limit);
@@ -72,6 +76,11 @@ export default class GameStore {
 
     //TODO: REMOVE
     this.frameData.splice(0, 30);
+  }
+
+  @action
+  startSimulation() {
+    this.simulationRunning = true;
   }
 
   @action
