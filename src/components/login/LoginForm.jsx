@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Alert } from 'antd';
 import { useHistory } from 'react-router-dom';
 import UserService from '../../service/UserService';
 import { login } from '../../service/APIUtils';
@@ -20,28 +20,40 @@ const LoginButton = styled(Button)`
 
 const LoginForm = props => {
   const history = useHistory();
+  const [error, setError] = useState('');
 
   let handleSubmit = e => {
     e.preventDefault();
     props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        let data = {username: values.username, password: values.password};
+        let data = { username: values.username, password: values.password };
         //props.userStore.authenticated = true;
-        UserService.login(data).then(header => {
-          localStorage.setItem(ACCESS_TOKEN, header.replace("Bearer", "").trim());
-          UserService.getPlayerByUsername(values.username)
-            .then(user => {
-              user.rating = 1000;
-              user.league = 'F';
-              user.email = 'iron.dantix@gmail.com';
-              props.userStore.setUser(user);
-              history.push('/');
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        });
+        UserService.login(data)
+          .then(header => {
+            if (header === null) {
+              throw { err: 'Login failed' };
+            }
+            localStorage.setItem(
+              ACCESS_TOKEN,
+              header.replace('Bearer', '').trim()
+            );
+            UserService.getPlayerByUsername(values.username)
+              .then(user => {
+                user.rating = 1000;
+                user.league = 'F';
+                user.email = 'iron.dantix@gmail.com';
+                props.userStore.setUser(user);
+                history.push('/');
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          })
+          .catch(err => {
+            console.log(err);
+            setError(err.err);
+          });
       }
     });
   };
@@ -49,6 +61,7 @@ const LoginForm = props => {
   const { getFieldDecorator } = props.form;
   return (
     <StyledForm onSubmit={handleSubmit} className="login-form">
+      {error !== '' ? <Alert message={error} type="error" /> : ''}
       <Form.Item>
         {getFieldDecorator('username', {
           rules: [{ required: true, message: 'Please input your username!' }]
