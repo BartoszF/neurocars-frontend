@@ -47,24 +47,28 @@ export const scene = {
     imgBlock.displayWidth = 100;
     imgBlock.displayHeight = 4000;
     imgBlock.setExistingBody(leftWall);
+    leftWall.isStatic = true;
 
     var rightWall = this.matter.add.rectangle(2000,0, 100,4000);
     imgBlock = this.matter.add.image(0,0, "wheel");
     imgBlock.displayWidth = 100;
     imgBlock.displayHeight = 4000;
     imgBlock.setExistingBody(rightWall);
+    rightWall.isStatic = true;
 
     var topWall = this.matter.add.rectangle(0,-2000, 4000,100);
     imgBlock = this.matter.add.image(0,0, "wheel");
     imgBlock.displayWidth = 4000;
     imgBlock.displayHeight = 100;
     imgBlock.setExistingBody(topWall);
+    topWall.isStatic = true;
 
     var bottomWall = this.matter.add.rectangle(0,2000, 4000,100);
     imgBlock = this.matter.add.image(0,0, "wheel");
     imgBlock.displayWidth = 4000;
     imgBlock.displayHeight = 100;
     imgBlock.setExistingBody(bottomWall);
+    bottomWall.isStatic = true;
 
     this.cameras.main.setZoom(0.3);
     this.cameras.main.startFollow(this.car.body, false, 0.6, 0.6, 0, 0);
