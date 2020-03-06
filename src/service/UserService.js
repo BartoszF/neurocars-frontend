@@ -13,6 +13,13 @@ const UserService = {
     });
   },
 
+  me() {
+    return request({
+      url: `/players/me`,
+      method: "GET"
+    });
+  },
+
   createUser(data) {
     return request({
       url: '/players',

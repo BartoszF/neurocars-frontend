@@ -38,11 +38,11 @@ const LoginForm = props => {
               ACCESS_TOKEN,
               header.replace('Bearer', '').trim()
             );
-            UserService.getPlayerByUsername(values.username)
+            UserService.me()
               .then(user => {
                 user.rating = 1000;
                 user.league = 'F';
-                user.email = 'iron.dantix@gmail.com';
+                //user.email = 'iron.dantix@gmail.com';
                 props.userStore.setUser(user);
                 history.push('/');
               })
