@@ -108,9 +108,9 @@ const LoginForm = props => {
         {getFieldDecorator('remember', {
           valuePropName: 'checked',
           initialValue: true
-        })(<Checkbox>Remember me</Checkbox>)}
+        })(<Checkbox><FormattedMessage id="form.rememberMe" /></Checkbox>)}
         <ForgotLink className="login-form-forgot" href="#">
-          Forgot password
+        <FormattedMessage id="form.forgotPassword" />
         </ForgotLink>
         <LoginButton
           type="primary"

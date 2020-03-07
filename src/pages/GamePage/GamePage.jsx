@@ -30,11 +30,11 @@ export const GamePage = observer(props => {
     },
     scale: {
       mode: Phaser.Scale.FIT,
-      width: 1366,
-      height: 768,
       autoCenter: Phaser.Scale.CENTER_BOTH
     },
     fps: 30,
+    width: 1366,
+    height: 768,
     scene: scene,
     gameStore: gameStore,
     userStore: userStore
