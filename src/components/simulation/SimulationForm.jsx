@@ -26,7 +26,6 @@ const SimulationForm = observer(props => {
 
         SimulationService.createSimulation()
           .then(simulation => {
-            setLoading(false);
             history.push(`/simulation/${simulation.id}`);
           })
           .catch(err => {
