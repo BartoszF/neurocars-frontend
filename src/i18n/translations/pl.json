@@ -2,9 +2,18 @@
   "app.title": "NeuroCars",
   "dashboard.newEventsHeader": "Wydarzenia, które mogą Cię zainterestować!",
   "dashboard.rankingTableHeader": "Ranking",
+  "form.forgotPassword": "Zapomniałem hasła",
+  "form.login": "Zaloguj się",
+  "form.provide": "Proszę podaj {value}!",
+  "form.register": "Zarejestruj",
+  "form.rememberMe": "Pamiętaj mnie",
   "navbar.dashboard": "Dashboard",
   "navbar.home": "Strona główna",
-  "navbar.login": "Login",
+  "navbar.login": "Zaloguj się",
+  "navbar.newSimulation": "Nowa symulacja",
   "navbar.profile": "Profil",
-  "navbar.register": "Rejestracja"
+  "navbar.register": "Rejestracja",
+  "player.email": "Adres email",
+  "player.password": "Hasło",
+  "player.username": "Nazwa użytkownika"
 }

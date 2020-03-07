@@ -9,6 +9,7 @@ export default class LocaleStore {
     constructor(rootStore){
         this.rootStore = rootStore;
         this.messages = translations
+        this.locale = (navigator.language || navigator.userLanguage).substring(0,2);
     }
 
     @action

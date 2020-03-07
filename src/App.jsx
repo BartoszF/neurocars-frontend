@@ -26,8 +26,9 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem(ACCESS_TOKEN);
     if(token) {
-      let username = RootStore.userStore.getPlayer.username;
-      UserService.getPlayerByUsername(username).then(player => {
+      UserService.me().then(player => {
+        player.league = 'F';
+        player.rank = 1000;
         RootStore.userStore.setUser(player);
       }).catch(err => {
         RootStore.userStore.clearContext();
