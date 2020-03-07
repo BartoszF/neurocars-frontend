@@ -5,6 +5,10 @@ import { useHistory } from 'react-router-dom';
 import UserService from '../../service/UserService';
 import { login } from '../../service/APIUtils';
 import { ACCESS_TOKEN } from '../../constants';
+import LoadingIndicator from '../common/LoadingIndicator';
+import { useIntl } from 'react-intl';
+import { PlayerMessages } from '../../i18n/globalMessages/Player';
+import { FormattedMessage } from 'react-intl.macro';
 
 const StyledForm = styled(Form)`
   max-width: 500px;
@@ -20,7 +24,9 @@ const LoginButton = styled(Button)`
 
 const LoginForm = props => {
   const history = useHistory();
+  const intl = useIntl();
   const [error, setError] = useState('');
+  let [loading, setLoading] = useState(false);
 
   let handleSubmit = e => {
     e.preventDefault();
@@ -29,6 +35,7 @@ const LoginForm = props => {
         console.log('Received values of form: ', values);
         let data = { username: values.username, password: values.password };
         //props.userStore.authenticated = true;
+        setLoading(true);
         UserService.login(data)
           .then(header => {
             if (header === null) {
@@ -44,6 +51,7 @@ const LoginForm = props => {
                 user.league = 'F';
                 //user.email = 'iron.dantix@gmail.com';
                 props.userStore.setUser(user);
+                setLoading(false);
                 history.push('/');
               })
               .catch(err => {
@@ -59,27 +67,40 @@ const LoginForm = props => {
   };
 
   const { getFieldDecorator } = props.form;
+  if (loading) {
+    return <LoadingIndicator />;
+  }
   return (
     <StyledForm onSubmit={handleSubmit} className="login-form">
       {error !== '' ? <Alert message={error} type="error" /> : ''}
       <Form.Item>
         {getFieldDecorator('username', {
-          rules: [{ required: true, message: 'Please input your username!' }]
+          rules: [
+            {
+              required: true,
+              message: intl.formatMessage(PlayerMessages.username).toLowerCase()
+            }
+          ]
         })(
           <Input
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Username"
+            placeholder={intl.formatMessage(PlayerMessages.username)}
           />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('password', {
-          rules: [{ required: true, message: 'Please input your password!' }]
+          rules: [
+            {
+              required: true,
+              message: intl.formatMessage(PlayerMessages.password).toLowerCase()
+            }
+          ]
         })(
           <Input
             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
             type="password"
-            placeholder="Password"
+            placeholder={intl.formatMessage(PlayerMessages.password)}
           />
         )}
       </Form.Item>
@@ -96,7 +117,7 @@ const LoginForm = props => {
           htmlType="submit"
           className="login-form-button"
         >
-          Log in
+          <FormattedMessage id="form.login" />
         </LoginButton>
         Or <a href="/register">register now!</a>
       </Form.Item>

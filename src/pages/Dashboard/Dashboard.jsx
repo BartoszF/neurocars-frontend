@@ -1,16 +1,24 @@
-import React from "react";
-import { observer } from "mobx-react";
-import { Row, Col, List } from "antd";
-import { PaddedRow25px } from "../../components/common/PaddedRow";
-import { PlayerAvatar } from "../../components/common/player/PlayerAvatar";
-import useStores from "../../useStores";
-import { PlayerName } from "../../components/common/player/PlayerName";
-import { FormattedMessage } from "react-intl.macro";
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
+import { Row, Col, List } from 'antd';
+import { PaddedRow25px } from '../../components/common/PaddedRow';
+import { PlayerAvatar } from '../../components/common/player/PlayerAvatar';
+import useStores from '../../useStores';
+import { PlayerName } from '../../components/common/player/PlayerName';
+import { FormattedMessage } from 'react-intl.macro';
+import LoadingIndicator from '../../components/common/LoadingIndicator';
 
 export const Dashboard = observer(props => {
-  let data = ["Player1", "Player2", "Player3", "Player4", "Player5", "Player5"];
+  let data = ['Player1', 'Player2', 'Player3', 'Player4', 'Player5', 'Player5'];
 
   const { userStore } = useStores();
+
+
+  let [loading, setLoading] = useState(false);
+
+  if(loading) {
+    return <LoadingIndicator />
+  }
 
   return (
     <div>
