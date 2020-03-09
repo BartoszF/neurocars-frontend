@@ -22,7 +22,6 @@ const SimulationService = {
   },
 
   patchSimulation(simulationId,body) {
-      console.log(body);
       return request({
           url: `/simulations/${simulationId}`,
           method: "PATCH",
