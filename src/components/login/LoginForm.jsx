@@ -37,6 +37,7 @@ const LoginForm = props => {
         UserService.login(data)
           .then(header => {
             if (header === null) {
+              setLoading(false);
               throw { err: 'Login failed' };
             }
             localStorage.setItem(
@@ -54,10 +55,12 @@ const LoginForm = props => {
               })
               .catch(err => {
                 console.log(err);
+                setLoading(false);
               });
           })
           .catch(err => {
             console.log(err);
+            setLoading(false);
             setError(err.err);
             setLoading(false);
           });
