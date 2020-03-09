@@ -30,7 +30,6 @@ const LoginForm = props => {
     e.preventDefault();
     props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         let data = { username: values.username, password: values.password };
         //props.userStore.authenticated = true;
         setLoading(true);
@@ -48,7 +47,6 @@ const LoginForm = props => {
               .then(user => {
                 user.rating = 1000;
                 user.league = 'F';
-                //user.email = 'iron.dantix@gmail.com';
                 props.userStore.setUser(user);
                 setLoading(false);
                 history.push('/');
@@ -62,7 +60,6 @@ const LoginForm = props => {
             console.log(err);
             setLoading(false);
             setError(err.err);
-            setLoading(false);
           });
       }
     });
@@ -107,16 +104,24 @@ const LoginForm = props => {
         {getFieldDecorator('remember', {
           valuePropName: 'checked',
           initialValue: true
-        })(<Checkbox><FormattedMessage id="form.rememberMe" /></Checkbox>)}
+        })(
+          <Checkbox>
+            <FormattedMessage id="form.rememberMe" />
+          </Checkbox>
+        )}
         <ForgotLink className="login-form-forgot" href="#">
-        <FormattedMessage id="form.forgotPassword" />
+          <FormattedMessage id="form.forgotPassword" />
         </ForgotLink>
         <LoginButton
           type="primary"
           htmlType="submit"
           className="login-form-button"
         >
-          {loading ? <Spin indicator={<Icon type="loading" />} /> : <FormattedMessage id="form.login" />}
+          {loading ? (
+            <Spin indicator={<Icon type="loading" />} />
+          ) : (
+            <FormattedMessage id="form.login" />
+          )}
         </LoginButton>
         Or <a href="/register">register now!</a>
       </Form.Item>

@@ -19,8 +19,6 @@ const SimulationForm = observer(props => {
     e.preventDefault();
     props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-
         setLoading(true);
 
         SimulationService.createSimulation()

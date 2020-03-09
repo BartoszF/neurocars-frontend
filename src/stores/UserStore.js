@@ -22,7 +22,6 @@ export default class UserStore {
           this.player = player;
           this.authenticated = true;
         }
-        console.log(player);
       })
       .catch(err => {
         console.log("NO PLAYER IN STORE");
@@ -49,7 +48,6 @@ export default class UserStore {
         this.store.setItem("player", this.player).catch(err => {
           console.log(err);
         });
-        console.log(data);
       }),
       action("error", error => {
         console.log(error);

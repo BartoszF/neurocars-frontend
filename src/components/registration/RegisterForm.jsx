@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Form, Icon, Input, Button, Spin } from 'antd';
+import { Form, Icon, Input, Button, Spin, Alert } from 'antd';
 import UserService from '../../service/UserService';
 import { useHistory } from 'react-router-dom';
 import { defineMessages, FormattedMessage } from 'react-intl.macro';
@@ -20,14 +20,13 @@ const LoginButton = styled(Button)`
 const RegisterForm = props => {
   let history = useHistory();
   const intl = useIntl();
+  const [error, setError] = useState('');
   let [loading, setLoading] = useState(false);
 
   let handleSubmit = e => {
     e.preventDefault();
     props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-
         setLoading(true);
         let data = {
           username: values.username,
@@ -36,11 +35,10 @@ const RegisterForm = props => {
         };
         UserService.createUser(data)
           .then(response => {
-            console.log(response);
             history.push('/login');
           })
           .catch(err => {
-            console.log(err);
+            setError(err.error);
             setLoading(false);
           });
       }
@@ -50,6 +48,7 @@ const RegisterForm = props => {
   const { getFieldDecorator } = props.form;
   return (
     <StyledForm onSubmit={handleSubmit} className="login-form">
+      {error !== '' ? <Alert message={error} type="error" /> : ''}
       <Form.Item>
         {getFieldDecorator('username', {
           rules: [
