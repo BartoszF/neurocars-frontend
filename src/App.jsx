@@ -32,9 +32,11 @@ function App() {
         RootStore.userStore.setUser(player);
       }).catch(err => {
         RootStore.userStore.clearContext();
+        localStorage.removeItem(ACCESS_TOKEN);
       })
     } else {
       RootStore.userStore.clearContext();
+      localStorage.removeItem(ACCESS_TOKEN);
     }
   },[]);
   

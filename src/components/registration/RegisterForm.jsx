@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, Spin } from 'antd';
 import UserService from '../../service/UserService';
 import { useHistory } from 'react-router-dom';
 import { defineMessages, FormattedMessage } from 'react-intl.macro';
 import { useIntl } from 'react-intl';
 import { FormMessages } from '../../i18n/globalMessages/Form';
 import { PlayerMessages } from '../../i18n/globalMessages/Player';
+import { useState } from 'react';
 
 const StyledForm = styled(Form)`
   max-width: 500px;
@@ -19,6 +20,7 @@ const LoginButton = styled(Button)`
 const RegisterForm = props => {
   let history = useHistory();
   const intl = useIntl();
+  let [loading, setLoading] = useState(false);
 
   let handleSubmit = e => {
     e.preventDefault();
@@ -26,6 +28,7 @@ const RegisterForm = props => {
       if (!err) {
         console.log('Received values of form: ', values);
 
+        setLoading(true);
         let data = {
           username: values.username,
           email: values.email,
@@ -38,6 +41,7 @@ const RegisterForm = props => {
           })
           .catch(err => {
             console.log(err);
+            setLoading(false);
           });
       }
     });
@@ -113,7 +117,7 @@ const RegisterForm = props => {
           htmlType="submit"
           className="login-form-button"
         >
-          <FormattedMessage id="form.register" />
+          {loading ? <Spin indicator={<Icon type="loading" />} /> : <FormattedMessage id="form.register" />}
         </LoginButton>
       </Form.Item>
     </StyledForm>

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Form, Icon, Input, Button, Checkbox, Alert } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Alert, Spin } from 'antd';
 import { useHistory } from 'react-router-dom';
 import UserService from '../../service/UserService';
-import { login } from '../../service/APIUtils';
 import { ACCESS_TOKEN } from '../../constants';
-import LoadingIndicator from '../common/LoadingIndicator';
 import { useIntl } from 'react-intl';
 import { PlayerMessages } from '../../i18n/globalMessages/Player';
 import { FormattedMessage } from 'react-intl.macro';
@@ -64,15 +62,13 @@ const LoginForm = props => {
             console.log(err);
             setLoading(false);
             setError(err.err);
+            setLoading(false);
           });
       }
     });
   };
 
   const { getFieldDecorator } = props.form;
-  if (loading) {
-    return <LoadingIndicator />;
-  }
   return (
     <StyledForm onSubmit={handleSubmit} className="login-form">
       {error !== '' ? <Alert message={error} type="error" /> : ''}
@@ -120,7 +116,7 @@ const LoginForm = props => {
           htmlType="submit"
           className="login-form-button"
         >
-          <FormattedMessage id="form.login" />
+          {loading ? <Spin indicator={<Icon type="loading" />} /> : <FormattedMessage id="form.login" />}
         </LoginButton>
         Or <a href="/register">register now!</a>
       </Form.Item>

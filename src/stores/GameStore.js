@@ -1,11 +1,11 @@
-import { action, observable, toJS, computed } from "mobx";
-import SimulationService from "../service/SimulationService";
+import { action, observable, toJS, computed } from 'mobx';
+import SimulationService from '../service/SimulationService';
 
 export default class GameStore {
   @observable frameData = [];
   @observable simulation = {};
   @observable simulationRunning = false;
-  @observable operation = "NO";
+  @observable simulationEnded = false;
 
   constructor(rootStore) {
     this.rootStore = rootStore;
@@ -14,40 +14,30 @@ export default class GameStore {
   @computed get isSimulationRunning() {
     return toJS(this.simulationRunning);
   }
-  getOperation() {
-    return toJS(this.operation);
+
+  @computed get isSimulationEnded() {
+    return toJS(this.simulationEnded);
   }
+
   @action
   addFrame(frame) {
     this.frameData.push(frame);
   }
 
   @action
-  createSimulation(playerId) {
-    this.operation = "PENDING";
-    SimulationService.createSimulation().then(
-      action("createSimulation", data => {
+  getSimulation(simulationId) {
+    SimulationService.getSimulation(simulationId).then(
+      action('getSimulation', data => {
         this.simulation = data;
-        this.simulationRunning = true;
-        this.operation = "SUCCES";
       }),
-      action("error", error => {
+      action('error', error => {
         console.log(error);
-        this.operation = "ERROR";
       })
     );
   }
 
-  @action
-  getSimulation(simulationId) {
-    SimulationService.getSimulation(simulationId).then(
-      action("getSimulation", data => {
-        this.simulation = data;
-      }),
-      action("error", error => {
-        console.log(error);
-      })
-    );
+  @computed get simulationObject() {
+    return toJS(this.simulation);
   }
 
   @action setSimulation(simulation) {
@@ -55,8 +45,9 @@ export default class GameStore {
   }
 
   @action
-  sendFrames(framesNum, limit = 30, endSimulation = false) {
-    let frames = toJS(this.frameData).slice(0, limit);
+  sendFrames(framesNum, endSimulation = false) {
+    let frames = toJS(this.frameData);
+    let length = this.frameData.length;
     let body = { id: this.simulation.id, simSteps: frames };
 
     if (endSimulation) {
@@ -64,18 +55,16 @@ export default class GameStore {
     }
 
     SimulationService.patchSimulation(this.simulation.id, body).then(
-      action("sendFrames", data => {
-        //this.lastOperation = "SUCCES";
-        this.frameData.splice(0, limit);
+      action('sendFrames', data => {
+        this.frameData.splice(0, length);
+        if (endSimulation) {
+          this.simulationEnded = true;
+        }
       }),
-      action("error", error => {
+      action('error', error => {
         console.log(error);
-        //this.lastOperation = "ERROR";
       })
     );
-
-    //TODO: REMOVE
-    this.frameData.splice(0, 30);
   }
 
   @action
@@ -86,6 +75,6 @@ export default class GameStore {
   @action
   endSimulation(frame) {
     this.simulationRunning = false;
-    this.sendFrames(frame, this.frameData.length, true);
+    this.sendFrames(frame, true);
   }
 }
