@@ -7,7 +7,7 @@ import { Dashboard } from "../Dashboard/Dashboard";
 export const HomePage = observer(props => {
   const { userStore } = useStores();
 
-  return userStore.authenticated ? (
+  return userStore.isAuthenticated ? (
     <Dashboard />
   ) : (
     <h2>

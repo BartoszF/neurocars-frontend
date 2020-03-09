@@ -27,7 +27,7 @@ const SimulationService = {
           url: `/simulations/${simulationId}`,
           method: "PATCH",
           body: JSON.stringify(body)
-      })
+      },false)
   }
 };
 

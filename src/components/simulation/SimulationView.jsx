@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from "mobx-react";
 import useStores from '../../useStores';
 import { useHistory } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button, Row } from 'antd';
 
 export const SimulationView = observer(props => {
     const { gameStore } = useStores();
@@ -14,7 +14,9 @@ export const SimulationView = observer(props => {
     }
 
   return <div>
-      DUPSKO
+      <Row><h2>Simulation name here</h2></Row>
+      <Row><span>{`State: stateHere`}</span></Row>
+
       <Button onClick={onClick}>Learn</Button>
   </div>;
 });

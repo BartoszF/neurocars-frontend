@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, Spin } from 'antd';
 import { useHistory } from 'react-router-dom';
 import useStores from '../../useStores';
 import SimulationService from '../../service/SimulationService';
-import LoadingIndicator from '../common/LoadingIndicator';
 
 const StyledForm = styled(Form)`
   //max-width: 500px;
@@ -37,9 +36,6 @@ const SimulationForm = observer(props => {
   };
 
   const { getFieldDecorator } = props.form;
-  if (loading) {
-    return <LoadingIndicator />;
-  }
   return (
     <StyledForm onSubmit={handleSubmit} className="simulation-form">
       <Form.Item>
@@ -60,7 +56,7 @@ const SimulationForm = observer(props => {
           htmlType="submit"
           className="simulation-form-button"
         >
-          Create
+          {loading ? <Spin indicator={<Icon type="loading" />} /> : "Create"}
         </Button>
       </Form.Item>
     </StyledForm>

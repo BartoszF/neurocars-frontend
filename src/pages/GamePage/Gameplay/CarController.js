@@ -1,7 +1,7 @@
-import Phaser from "phaser";
-import raycast from "./ray";
-import GameStore from "../../../stores/GameStore";
-import RootStore from "../../../stores/RootStore";
+import Phaser from 'phaser';
+import raycast from './ray';
+import GameStore from '../../../stores/GameStore';
+import RootStore from '../../../stores/RootStore';
 
 let degreeToRad = function(degree) {
   return degree * (Math.PI / 180);
@@ -16,20 +16,23 @@ export default class CarController {
     this.car = scene.car;
     this.frame = 0;
 
-    this.scene.input.keyboard.on("keydown-X", event => {
+    this.scene.input.keyboard.on('keydown-X', event => {
       if (RootStore.gameStore.isSimulationRunning) {
         this.endSimulation();
       }
     });
+
+    if (
+      !RootStore.gameStore.isSimulationEnded &&
+      RootStore.gameStore.simulation != null
+    ) {
+      RootStore.gameStore.startSimulation();
+    }
   }
 
   update(x, y) {
     if (RootStore.gameStore.isSimulationRunning) {
       this.simulationUpdate(x, y);
-    } else if (
-      RootStore.gameStore.simulation != null
-    ) {
-      RootStore.gameStore.startSimulation();
     }
   }
 
@@ -44,7 +47,7 @@ export default class CarController {
 
     let allBodies = this.scene.matter.world
       .getAllBodies()
-      .filter(body => body.label !== "Car body");
+      .filter(body => body.label !== 'Car body');
     bodies = bodies.concat(allBodies);
 
     //Shoot these rays!
@@ -100,7 +103,7 @@ export default class CarController {
     RootStore.gameStore.addFrame(frameData);
 
     if (this.frame % FRAME_NUM_TO_SEND === 0) {
-      RootStore.gameStore.sendFrames(this.frame, FRAME_NUM_TO_SEND);
+      RootStore.gameStore.sendFrames(this.frame);
     }
   }
 

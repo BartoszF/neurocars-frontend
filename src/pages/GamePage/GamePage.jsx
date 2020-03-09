@@ -5,6 +5,8 @@ import { scene } from "./GameScene.jsx";
 import styled from "styled-components";
 import { observer } from "mobx-react";
 import useStores from "../../useStores";
+import { useHistory } from 'react-router-dom';
+import { useEffect } from "react";
 
 const GameWrapper = styled.div`
   margin-left: auto;
@@ -15,6 +17,14 @@ const GameWrapper = styled.div`
 export const GamePage = observer(props => {
   let [init] = useState(true);
   let { gameStore, userStore } = useStores();
+  const history = useHistory();
+
+  useEffect(() => {
+
+    if(gameStore.isSimulationEnded) {
+      history.push(`/simulation/${gameStore.simulationObject.id}`)
+    }
+  }, [gameStore.isSimulationEnded])
 
   // useEffect(() => {
   //   userStore.getPlayerByUsername("KebabuTurka");

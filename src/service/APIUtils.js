@@ -1,7 +1,7 @@
 import { ACCESS_TOKEN } from '../constants';
 import { BACKEND_URL } from '../constants';
 
-export async function request(options) {
+export async function request(options, wantJSON = true) {
   const headers = new Headers({
     'Content-Type': 'application/json'
   });
@@ -17,11 +17,19 @@ export async function request(options) {
   options = { ...defaults, ...options };
 
   const response = await fetch(`${BACKEND_URL}/api${options.url}`, options);
-  const json = await response.json();
-  if (!response.ok) {
-    return Promise.reject(json);
+
+  if (wantJSON) {
+    const json = await response.json();
+    if (!response.ok) {
+      return Promise.reject(json);
+    }
+    return json;
+  } else {
+    if (!response.ok) {
+      return Promise.reject(response);
+    }
+    return response;
   }
-  return json;
 }
 
 export async function login(options) {
