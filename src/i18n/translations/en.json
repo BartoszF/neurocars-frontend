@@ -15,5 +15,13 @@
   "navbar.register": "Register",
   "player.email": "Email address",
   "player.password": "Password",
-  "player.username": "Username"
+  "player.username": "Username",
+  "simulation.state": "State",
+  "simulation.state.AWAITING_DATA": "Waiting for data.",
+  "simulation.state.AWAITING_MODEL": "Training...",
+  "simulation.state.FINISHED": "Model ready.",
+  "simulation.state.GATHERED_DATA": "Data ready. Waiting for training.",
+  "simulation.state.IN_CREATION": "Creating.",
+  "simulation.state.LOST_DATA": "Data corrupted. Please learn again.",
+  "simulation.state.UNKNOWN": "Unknown (shouldn't happen)"
 }
