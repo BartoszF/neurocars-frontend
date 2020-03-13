@@ -2,9 +2,10 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import useStores from '../../useStores';
 import { useHistory } from 'react-router-dom';
-import { Button, Row } from 'antd';
+import { Button, Row, Popconfirm } from 'antd';
 import { useIntl } from 'react-intl';
 import { SimulationMessages } from '../../i18n/globalMessages/Simulation';
+import { CommonMessages } from '../../i18n/globalMessages/Common';
 
 export const SimulationView = observer(props => {
   const { gameStore } = useStores();
@@ -12,6 +13,8 @@ export const SimulationView = observer(props => {
   const intl = useIntl();
 
   let onClick = () => {
+    if (props.simulation.state === 'FINISHED') {
+    }
     gameStore.setSimulation(props.simulation);
     history.push('/gameTest');
   };
@@ -35,16 +38,51 @@ export const SimulationView = observer(props => {
     }
   };
 
+  let learnButtonVisible = () => {
+    return ['IN_CREATION', 'AWAITING_DATA', 'FINISHED'].contains(
+      props.simulation.state
+    );
+  };
+
+  let learnWillDeleteData = () => {
+    return props.simulation.state === 'FINISHED';
+  };
+
+  let getLearnButton = (shouldPassClick) => {
+    if (learnButtonVisible) {
+      return <Button onClick={shouldPassClick ? onClick: () => {}}>Learn</Button>;
+    }
+
+    return <></>;
+  };
+
+  let getLearnButtonWithConfirm = () => {
+    if (learnWillDeleteData()) {
+      return (
+        <Popconfirm
+          title={intl.formatMessage(CommonMessages.confirmDeletePreviousData)}
+          onConfirm={onClick}
+          okText={intl.formatMessage(CommonMessages.yes)}
+          cancelText={intl.formatMessage(CommonMessages.no)}
+        >{getLearnButton(false)}</Popconfirm>
+      );
+    }
+
+    return getLearnButton(true);
+  };
+
   return (
     <div>
       <Row>
         <h2>Simulation name here</h2>
       </Row>
       <Row>
-        <span>{`${intl.formatMessage(SimulationMessages.state)}: ${intl.formatMessage(getMessage())}`}</span>
+        <span>{`${intl.formatMessage(
+          SimulationMessages.state
+        )}: ${intl.formatMessage(getMessage())}`}</span>
       </Row>
 
-      <Button onClick={onClick}>Learn</Button>
+      {getLearnButtonWithConfirm()}
     </div>
   );
 });
