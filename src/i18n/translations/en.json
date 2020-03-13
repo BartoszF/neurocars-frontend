@@ -1,5 +1,8 @@
 {
   "app.title": "NeuroCars",
+  "common.confirmDeletePreviousData": "Are you sure? This will remove previous data.",
+  "common.no": "No",
+  "common.yes": "Yes",
   "dashboard.newEventsHeader": "Events you might be interested!",
   "dashboard.rankingTableHeader": "Ranking",
   "form.forgotPassword": "Forgot Password",
