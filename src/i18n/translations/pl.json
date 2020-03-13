@@ -15,5 +15,13 @@
   "navbar.register": "Rejestracja",
   "player.email": "Adres email",
   "player.password": "Hasło",
-  "player.username": "Nazwa użytkownika"
+  "player.username": "Nazwa użytkownika",
+  "simulation.state": "Status",
+  "simulation.state.AWAITING_DATA": "Oczekiwanie na dane.",
+  "simulation.state.AWAITING_MODEL": "Trenowanie...",
+  "simulation.state.FINISHED": "Model gotowy.",
+  "simulation.state.GATHERED_DATA": "Dane gotowe. Oczekiwanie na wolnego trenera.",
+  "simulation.state.IN_CREATION": "Tworzenie...",
+  "simulation.state.LOST_DATA": "Dane niepełne.",
+  "simulation.state.UNKNOWN": "Unknown (shouldn't happen)"
 }
