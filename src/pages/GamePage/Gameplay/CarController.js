@@ -15,16 +15,20 @@ export default class CarController {
     this.scene = scene;
     this.car = scene.car;
     this.frame = 0;
+    this.currentSensors = {};
 
     this.scene.input.keyboard.on('keydown-X', event => {
-      if (RootStore.gameStore.isSimulationRunning) {
+      if (
+        RootStore.gameStore.isSimulationRunning &&
+        RootStore.gameStore.isSimulationView === false
+      ) {
         this.endSimulation();
       }
     });
 
     if (
       !RootStore.gameStore.isSimulationEnded &&
-      RootStore.gameStore.simulation != null
+      RootStore.gameStore.simulation.id != null
     ) {
       RootStore.gameStore.startSimulation();
     }
@@ -100,10 +104,14 @@ export default class CarController {
       }
     };
 
-    RootStore.gameStore.addFrame(frameData);
+    this.currentSensors = frameData.sensorData;
 
-    if (this.frame % FRAME_NUM_TO_SEND === 0) {
-      RootStore.gameStore.sendFrames(this.frame);
+    if (RootStore.gameStore.isSimulationView === false) {
+      RootStore.gameStore.addFrame(frameData);
+
+      if (this.frame % FRAME_NUM_TO_SEND === 0) {
+        RootStore.gameStore.sendFrames(this.frame);
+      }
     }
   }
 

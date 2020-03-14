@@ -11,6 +11,8 @@ export async function request(options, wantJSON = true) {
       'Authorization',
       `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
     );
+  } else if (options.authenticated) {
+    return Promise.reject('No access token set.');
   }
 
   const defaults = { headers };
