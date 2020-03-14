@@ -57,7 +57,7 @@ export default class CarController {
     //Shoot these rays!
     let center = new Phaser.Math.Vector2(this.car.body.x, this.car.body.y);
     let forward = this.getForwardVector();
-    let rayLength = 2000;
+    let rayLength = 10000;
 
     /*
         x2=cosβx1−sinβy1

@@ -54,6 +54,11 @@ export default class GameStore {
     return toJS(this.aiModel);
   }
 
+  @action clearAiModel() {
+    this.aiModel = null;
+    this.simulationView = false;
+  }
+
   @action setAiModel(aiModel) {
     this.aiModel = aiModel;
     this.simulationView = true;
