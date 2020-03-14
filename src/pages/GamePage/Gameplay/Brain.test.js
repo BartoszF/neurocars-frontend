@@ -2,6 +2,8 @@ import Brain from './Brain';
 
 describe('Brain', () => {
   it('completes', () => {
+      const expectedX = 0.9818326;
+      const expectedY = 0.9142582;
     const aiModel = {
       layers: [
         {
@@ -52,7 +54,9 @@ describe('Brain', () => {
     console.log(sensors)
 
     let output = brain.update(sensors);
-    console.log(output[1], 0.9818326);
-    console.log(output[0], 0.9142582);
+    expect(Math.abs(output[1] - expectedX) < 0.2).toBeTruthy();
+    expect(Math.abs(output[0] - expectedY) < 0.2).toBeTruthy();
+    console.log(output[1], expectedX);
+    console.log(output[0], expectedY);
   });
 });
