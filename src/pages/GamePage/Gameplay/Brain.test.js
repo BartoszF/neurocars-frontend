@@ -51,12 +51,8 @@ describe('Brain', () => {
       sensors.push(i);
     }
 
-    console.log(sensors)
-
     let output = brain.update(sensors);
     expect(Math.abs(output[1] - expectedX) < 0.2).toBeTruthy();
     expect(Math.abs(output[0] - expectedY) < 0.2).toBeTruthy();
-    console.log(output[1], expectedX);
-    console.log(output[0], expectedY);
   });
 });

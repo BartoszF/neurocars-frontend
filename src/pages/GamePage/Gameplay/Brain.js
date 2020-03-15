@@ -6,6 +6,7 @@ export default class Brain {
 
     const input = tf.input({ shape: [18] });
     layers.push(input);
+
     for (let i = 1; i < aiModel.layers.length; i++) {
       const prevLayer = aiModel.layers[i - 1];
       const layer = aiModel.layers[i];
@@ -26,20 +27,20 @@ export default class Brain {
       .apply(layers[layers.length - 1]);
 
     this.model = tf.model({ inputs: input, outputs: output });
-    for (let i = 1; i < aiModel.layers.length; i++) {
+
+    for (let i = 1; i <= aiModel.layers.length; i++) {
       const prevLayer = aiModel.layers[i - 1];
-      const layer = aiModel.layers[i];
-      //console.log(i);
-      //console.log(this.model.layers[i].getWeights()[0]);
-      //this.model.layers[i].getWeights()[0].print();
+      let layer;
+      if (i < aiModel.layers.length) {
+        layer = aiModel.layers[i];
+      } else {
+        layer = { inputSize: 2 };
+      }
       this.model.layers[i].setWeights([
         tf.tensor(prevLayer.weights),
         tf.fill([layer.inputSize], prevLayer.bias)
       ]);
     }
-    //this.model.layers[1].getWeights()[0].print();
-
-    //this.model.summary();
   }
 
   update(sensors) {
