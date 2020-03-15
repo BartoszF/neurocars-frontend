@@ -4,6 +4,8 @@ import SimulationService from '../service/SimulationService';
 export default class GameStore {
   @observable frameData = [];
   @observable simulation = {};
+  @observable aiModel = {};
+  @observable simulationView = false;
   @observable simulationRunning = false;
   @observable simulationEnded = false;
 
@@ -42,6 +44,24 @@ export default class GameStore {
 
   @action setSimulation(simulation) {
     this.simulation = simulation;
+  }
+
+  @computed get isSimulationView() {
+    return toJS(this.simulationView);
+  }
+
+  @computed get aiModelObject() {
+    return toJS(this.aiModel);
+  }
+
+  @action clearAiModel() {
+    this.aiModel = null;
+    this.simulationView = false;
+  }
+
+  @action setAiModel(aiModel) {
+    this.aiModel = aiModel;
+    this.simulationView = true;
   }
 
   @action

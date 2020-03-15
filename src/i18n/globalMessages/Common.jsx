@@ -11,6 +11,11 @@ export const CommonMessages = defineMessages({
         defaultMessage: "No",
         description: ""
     },
+    view: {
+        id: "common.view",
+        defaultMessage: "View",
+        description: ""
+    },
     confirmDeletePreviousData: {
         id: "common.confirmDeletePreviousData",
         defaultMessage: "Are you sure? This will remove previous data.",

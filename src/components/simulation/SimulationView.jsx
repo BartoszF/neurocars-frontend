@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import useStores from '../../useStores';
 import { useHistory } from 'react-router-dom';
@@ -6,16 +6,39 @@ import { Button, Row, Popconfirm } from 'antd';
 import { useIntl } from 'react-intl';
 import { SimulationMessages } from '../../i18n/globalMessages/Simulation';
 import { CommonMessages } from '../../i18n/globalMessages/Common';
+import SimulationService from '../../service/SimulationService';
 
 export const SimulationView = observer(props => {
   const { gameStore } = useStores();
   const history = useHistory();
   const intl = useIntl();
+  const [aiModel, setAiModel] = useState(null);
+  const [aiModelLoading, setAiModelLoading] = useState(false);
 
-  let onClick = () => {
-    if (props.simulation.state === 'FINISHED') {
+  useEffect(() => {
+    if (simulationFinished()) {
+        setAiModelLoading(true);
+      SimulationService.getAiModel(props.simulation.id)
+        .then(model => {
+          setAiModel(model.networkModelDTO);
+          console.log(model.networkModelDTO);
+          setAiModelLoading(false);
+        })
+        .catch(err => {
+          console.log(err);
+          setAiModelLoading(false);
+        });
     }
+  }, [props.simulation.id]);
+
+  let onLearnClick = () => {
     gameStore.setSimulation(props.simulation);
+    history.push('/gameTest');
+  };
+
+  let onViewClick = () => {
+    gameStore.setSimulation(props.simulation);
+    gameStore.setAiModel(aiModel);
     history.push('/gameTest');
   };
 
@@ -44,27 +67,39 @@ export const SimulationView = observer(props => {
     );
   };
 
-  let learnWillDeleteData = () => {
+  let simulationFinished = () => {
     return props.simulation.state === 'FINISHED';
   };
 
-  let getLearnButton = (shouldPassClick) => {
+  let getLearnButton = shouldPassClick => {
     if (learnButtonVisible) {
-      return <Button onClick={shouldPassClick ? onClick: () => {}}>Learn</Button>;
+      return (
+        <Button onClick={shouldPassClick ? onLearnClick : () => {}}>
+          {intl.formatHTMLMessage(SimulationMessages.learn)}
+        </Button>
+      );
     }
 
     return <></>;
   };
 
+  const getViewButton = () => {
+    if (simulationFinished() && aiModelLoading === false) {
+      return <Button onClick={onViewClick}>{intl.formatHTMLMessage(CommonMessages.view)}</Button>;
+    }
+  };
+
   let getLearnButtonWithConfirm = () => {
-    if (learnWillDeleteData()) {
+    if (simulationFinished()) {
       return (
         <Popconfirm
           title={intl.formatMessage(CommonMessages.confirmDeletePreviousData)}
-          onConfirm={onClick}
+          onConfirm={onLearnClick}
           okText={intl.formatMessage(CommonMessages.yes)}
           cancelText={intl.formatMessage(CommonMessages.no)}
-        >{getLearnButton(false)}</Popconfirm>
+        >
+          {getLearnButton(false)}
+        </Popconfirm>
       );
     }
 
@@ -83,6 +118,7 @@ export const SimulationView = observer(props => {
       </Row>
 
       {getLearnButtonWithConfirm()}
+      {getViewButton()}
     </div>
   );
 });

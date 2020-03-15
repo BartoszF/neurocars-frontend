@@ -26,9 +26,6 @@ export const GamePage = observer(props => {
     }
   }, [gameStore.isSimulationEnded])
 
-  // useEffect(() => {
-  //   userStore.getPlayerByUsername("KebabuTurka");
-  // }, []);
 
   const game = {
     type: Phaser.AUTO,

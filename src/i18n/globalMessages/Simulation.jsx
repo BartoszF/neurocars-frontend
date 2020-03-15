@@ -6,6 +6,11 @@ export const SimulationMessages = defineMessages({
     defaultMessage: 'State',
     description: ''
   },
+  learn: {
+    id: 'simulation.learn',
+    defaultMessage: 'Learn',
+    description: ''
+  },
   inCreationState: {
     id: 'simulation.state.IN_CREATION',
     defaultMessage: 'Creating.',

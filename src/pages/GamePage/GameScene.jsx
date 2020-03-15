@@ -1,19 +1,21 @@
-import createCar from "./Gameplay/CarFactory";
-import { collisionCategories } from "./Gameplay/Constants";
-import CarSimpleController from "./Gameplay/CarSimpleController";
+import createCar from './Gameplay/CarFactory';
+import { collisionCategories } from './Gameplay/Constants';
+import CarSimpleController from './Gameplay/CarSimpleController';
+import RootStore from '../../stores/RootStore';
+import NeuralDriver from './Gameplay/NeuralDriver';
 
 export const scene = {
   preload: function() {
-    this.load.image("wheel", "/assets/wheel.png");
-    this.load.image("car", "/assets/cars/Audi.png")
+    this.load.image('wheel', '/assets/wheel.png');
+    this.load.image('car', '/assets/cars/Audi.png');
   },
 
   create: function() {
-    collisionCategories["WORLD"] = this.matter.world.nextCategory();
-    collisionCategories["TIRE"] = this.matter.world.nextCategory();
-    collisionCategories["BODY"] = this.matter.world.nextCategory();
+    collisionCategories['WORLD'] = this.matter.world.nextCategory();
+    collisionCategories['TIRE'] = this.matter.world.nextCategory();
+    collisionCategories['BODY'] = this.matter.world.nextCategory();
 
-    this.matter.world.setBounds(-2000,-2000,4000,4000).disableGravity();
+    this.matter.world.setBounds(-2000, -2000, 4000, 4000).disableGravity();
     let debug = this.matter.world.debugConfig;
     debug.staticLineColor = 0x00ff00;
     debug.sensorLineColor = 0x00ff00;
@@ -33,38 +35,45 @@ export const scene = {
       this
     );
 
-    this.carController = new CarSimpleController(this);
+    if (RootStore.gameStore.isSimulationView === false) {
+      this.carController = new CarSimpleController(this);
+    } else {
+      this.carController = new NeuralDriver(this);
+    }
 
-    var centerBlock = this.matter.add.rectangle(0, 0, 1000, 1000, {isStatic: true, label: "Center block"});
+    var centerBlock = this.matter.add.rectangle(0, 0, 1000, 1000, {
+      isStatic: true,
+      label: 'Center block'
+    });
 
-    var imgBlock = this.matter.add.image(0,0, "wheel");
+    var imgBlock = this.matter.add.image(0, 0, 'wheel');
     imgBlock.displayWidth = 1000;
     imgBlock.displayHeight = 1000;
     imgBlock.setExistingBody(centerBlock);
 
-    var leftWall = this.matter.add.rectangle(-2000,0, 100,4000);
-    imgBlock = this.matter.add.image(0,0, "wheel");
+    var leftWall = this.matter.add.rectangle(-2000, 0, 100, 4000);
+    imgBlock = this.matter.add.image(0, 0, 'wheel');
     imgBlock.displayWidth = 100;
     imgBlock.displayHeight = 4000;
     imgBlock.setExistingBody(leftWall);
     leftWall.isStatic = true;
 
-    var rightWall = this.matter.add.rectangle(2000,0, 100,4000);
-    imgBlock = this.matter.add.image(0,0, "wheel");
+    var rightWall = this.matter.add.rectangle(2000, 0, 100, 4000);
+    imgBlock = this.matter.add.image(0, 0, 'wheel');
     imgBlock.displayWidth = 100;
     imgBlock.displayHeight = 4000;
     imgBlock.setExistingBody(rightWall);
     rightWall.isStatic = true;
 
-    var topWall = this.matter.add.rectangle(0,-2000, 4000,100);
-    imgBlock = this.matter.add.image(0,0, "wheel");
+    var topWall = this.matter.add.rectangle(0, -2000, 4000, 100);
+    imgBlock = this.matter.add.image(0, 0, 'wheel');
     imgBlock.displayWidth = 4000;
     imgBlock.displayHeight = 100;
     imgBlock.setExistingBody(topWall);
     topWall.isStatic = true;
 
-    var bottomWall = this.matter.add.rectangle(0,2000, 4000,100);
-    imgBlock = this.matter.add.image(0,0, "wheel");
+    var bottomWall = this.matter.add.rectangle(0, 2000, 4000, 100);
+    imgBlock = this.matter.add.image(0, 0, 'wheel');
     imgBlock.displayWidth = 4000;
     imgBlock.displayHeight = 100;
     imgBlock.setExistingBody(bottomWall);
@@ -76,15 +85,19 @@ export const scene = {
     this.cursors = this.input.keyboard.createCursorKeys();
   },
   update: function(time, delta) {
-    let x = 0;
-    let y = 0;
+    if (RootStore.gameStore.isSimulationView === false) {
+      let x = 0;
+      let y = 0;
 
-    if (this.cursors.up.isDown) y = 1;
-    if (this.cursors.down.isDown) y = -1;
+      if (this.cursors.up.isDown) y = 1;
+      if (this.cursors.down.isDown) y = -1;
 
-    if (this.cursors.left.isDown) x = -1;
-    if (this.cursors.right.isDown) x = 1;
+      if (this.cursors.left.isDown) x = -1;
+      if (this.cursors.right.isDown) x = 1;
 
-    this.carController.update(x, y);
+      this.carController.update(x, y);
+    } else {
+      this.carController.update();
+    }
   }
 };
