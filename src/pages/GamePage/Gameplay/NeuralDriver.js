@@ -23,7 +23,7 @@ export default class NeuralDriver {
       }
 
       const output = this.brain.update(input);
-      this.controller.update(output[1], output[0]);
+      this.controller.update(output[0], output[1]);
     } else {
       this.controller.update(0, 0);
     }
