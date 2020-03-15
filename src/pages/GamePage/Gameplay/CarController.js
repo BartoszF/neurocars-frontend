@@ -8,7 +8,7 @@ let degreeToRad = function(degree) {
 };
 
 const SENSOR_NUM = 15;
-const FRAME_NUM_TO_SEND = 120;
+const FRAME_NUM_TO_SEND = 120 * 3;
 
 export default class CarController {
   constructor(scene) {
