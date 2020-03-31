@@ -42,9 +42,7 @@ export const GamePage = observer(props => {
     fps: 30,
     width: 1366,
     height: 768,
-    scene: scene,
-    gameStore: gameStore,
-    userStore: userStore
+    scene: scene
   };
 
   return (
