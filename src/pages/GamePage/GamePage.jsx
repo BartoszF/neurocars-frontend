@@ -36,17 +36,18 @@ export const GamePage = observer(props => {
       }
     },
     scale: {
+      parent:"gameParent",
       mode: Phaser.Scale.FIT,
-      autoCenter: Phaser.Scale.CENTER_BOTH
+      autoCenter: Phaser.Scale.CENTER_BOTH,
+      width: 1366,
+      height: 768,
     },
     fps: 30,
-    width: 1366,
-    height: 768,
     scene: scene
   };
 
   return (
-    <GameWrapper>
+    <GameWrapper id="gameParent">
       <IonPhaser game={game} initialize={init} />
     </GameWrapper>
   );
