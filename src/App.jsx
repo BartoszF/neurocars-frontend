@@ -19,6 +19,7 @@ import { SimulationPage } from './pages/Simulation/SimulationPage';
 import PrivateRoute from './components/common/PrivateRoute';
 import { ACCESS_TOKEN } from './constants';
 import UserService from './service/UserService';
+import { EditorPage } from './pages/EditorPage/EditorPage';
 
 const { Header, Footer, Content } = Layout;
 
@@ -57,6 +58,7 @@ function App() {
               <Switch>
                 <Route exact path="/" component={HomePage} />
                 <PrivateRoute exact path="/gameTest" component={GamePage} />
+                <PrivateRoute exact path="/editorTest" component={EditorPage} />
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/register" component={RegisterPage} />
                 <PrivateRoute
