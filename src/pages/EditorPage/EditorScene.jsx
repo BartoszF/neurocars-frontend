@@ -10,6 +10,7 @@ export const scene = {
   preload: function () {
     this.load.image('wheel', '/assets/wheel.png');
     this.load.image('car', '/assets/cars/Audi.png');
+    this.load.image('track', '/assets/track/track.png');
 
     this.lastMousePosition = null;
     this.guidePosition = new Phaser.Math.Vector2(0, 0);

@@ -12,7 +12,7 @@ export class TrackDrawer {
     this.pathEditor = pathEditor;
     this.mesh = null;
     //TEMPORARY
-    this.width = 200;
+    this.width = 400;
   }
 
   clear() {
@@ -87,12 +87,12 @@ export class TrackDrawer {
         ...vector2ToFloats(three)
       );
       uvs.push(
-        ...vector2ToFloats(Vector2.ZERO),
-        ...vector2ToFloats(Vector2.ZERO),
-        ...vector2ToFloats(Vector2.ZERO),
-        ...vector2ToFloats(Vector2.ZERO),
-        ...vector2ToFloats(Vector2.ZERO),
-        ...vector2ToFloats(Vector2.ZERO)
+        ...vector2ToFloats(new Vector2(0,0)),
+        ...vector2ToFloats(new Vector2(1,0)),
+        ...vector2ToFloats(new Vector2(1,1)),
+        ...vector2ToFloats(new Vector2(0,0)),
+        ...vector2ToFloats(new Vector2(0,1)),
+        ...vector2ToFloats(new Vector2(1,1))
       );
     }
 
