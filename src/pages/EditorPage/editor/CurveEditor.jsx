@@ -24,6 +24,13 @@ export class CurveEditor {
     this.points.push(new Point(this, this.curve, 'p3'));
   }
 
+  attachLastTo(point) {
+    this.curve.p3 = point;
+
+    let lastPoint = this.points.splice(-1, 1);
+    lastPoint[0].onRemove();
+  }
+
   onUpdate() {
     this.pathEditor.draw();
   }

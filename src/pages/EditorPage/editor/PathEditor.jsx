@@ -16,30 +16,54 @@ export class PathEditor {
     this.scene = scene;
     this.listeners = [];
     this.graphics = graphics;
-    this.path = scene.add.path(500, 0);
-    this.path.autoClose = true;
+    this.path = scene.add.path(1200, 0);
+    this.isClosed = false;
   }
 
   addCurveListener(listener) {
     this.listeners.push(listener);
   }
 
+  getPath() {
+    return this.path;
+  }
+
+  closePath() {
+    this.path.closePath();
+
+    let firstCurve = this.curves[0];
+    let lastCurve = this.curves[this.curves.length - 1];
+
+    lastCurve.editor.attachLastTo(firstCurve.curve.p0);
+
+    this.draw();
+
+    this.isClosed = true;
+  }
+
   addCubicBezier() {
-    this.path.cubicBezierTo(
+    this.addCubicBezierPoints([
       new Vector2(100, 100),
       new Vector2(75, 75),
-      new Vector2(50, 50)
-    );
+      new Vector2(50, 50),
+    ]);
+  }
+
+  addCubicBezierPoints(points) {
+    this.path.cubicBezierTo(points[0], points[1], points[2]);
 
     let currentCurve = this.path.curves[this.path.curves.length - 1];
     let previousCurve = null;
 
-    if(this.path.curves.length > 1) {
+    if (this.path.curves.length > 1) {
       previousCurve = this.path.curves[this.path.curves.length - 2];
     }
 
-    let curve = {curve: currentCurve, editor: new CurveEditor(this, currentCurve, previousCurve)}
-    this.curves.push(curve)
+    let curve = {
+      curve: currentCurve,
+      editor: new CurveEditor(this, currentCurve, previousCurve),
+    };
+    this.curves.push(curve);
 
     this.onCurveAdded('Bezier ' + this.path.curves.length, curve);
 
