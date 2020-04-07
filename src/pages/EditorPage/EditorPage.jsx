@@ -23,7 +23,7 @@ const GuiWrapper = styled.div`
   height: 60%;
 `;
 
-export const EditorPage = observer(props => {
+export const EditorPage = observer((props) => {
   let [init] = useState(true);
   let { gameStore, userStore } = useStores();
   const history = useHistory();
@@ -36,23 +36,24 @@ export const EditorPage = observer(props => {
   //   }, [gameStore.isSimulationEnded])
 
   const game = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     physics: {
       default: 'matter',
       matter: {
-        debug: false
-      }
+        debug: false,
+      },
     },
     scale: {
-      parent:"gameParent",
+      parent: 'gameParent',
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
       width: 1366,
-      height: 768
+      height: 768,
     },
     fps: 30,
-    
-    scene: scene
+    enableDebug: false,
+
+    scene: scene,
   };
 
   return (
