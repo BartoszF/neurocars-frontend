@@ -25,10 +25,7 @@ export class TrackDrawer {
   draw() {
     this.clear();
 
-    let path = this.pathEditor.getPath();
-    console.log('DRAW', path, path.getLength());
-
-    let points = path.getSpacedPoints(path.getLength() / 10);
+    let points = this.pathEditor.getPoints(); 
 
     let vertices = [];
     let uvs = [];

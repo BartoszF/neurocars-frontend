@@ -28,6 +28,10 @@ export class PathEditor {
     return this.path;
   }
 
+  getPoints() {
+    return this.path.getSpacedPoints(this.path.getLength() / 10);
+  }
+
   closePath() {
     this.path.closePath();
 
