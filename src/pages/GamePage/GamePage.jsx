@@ -14,6 +14,14 @@ const GameWrapper = styled.div`
   height: 800px;
 `;
 
+const GuiWrapper = styled.div`
+  position: absolute;
+  top: 100px;
+  right: 45px;
+  width: 200px;
+  height: 60%;
+`;
+
 export const GamePage = observer(props => {
   let [init] = useState(true);
   let { gameStore, userStore } = useStores();
@@ -49,6 +57,7 @@ export const GamePage = observer(props => {
   return (
     <GameWrapper id="gameParent">
       <IonPhaser game={game} initialize={init} />
+      <GuiWrapper id="dat-gui-container"></GuiWrapper>
     </GameWrapper>
   );
 });

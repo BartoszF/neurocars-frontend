@@ -1,9 +1,10 @@
 import Phaser from 'phaser';
 import raycast from './ray';
+import * as dat from 'dat.gui';
 import GameStore from '../../../stores/GameStore';
 import RootStore from '../../../stores/RootStore';
 
-let degreeToRad = function(degree) {
+let degreeToRad = function (degree) {
   return degree * (Math.PI / 180);
 };
 
@@ -15,9 +16,31 @@ export default class CarController {
     this.scene = scene;
     this.car = scene.car;
     this.frame = 0;
-    this.currentSensors = {};
+    this.currentSensors = {
+      velocityX: 0,
+      velocityY: 0,
+      angle: 0,
+      distanceData: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    };
 
-    this.scene.input.keyboard.on('keydown-X', event => {
+    this.gui = new dat.GUI({ autoPlace: false });
+    this.gui.add(this.currentSensors, 'velocityX').listen();
+    this.gui.add(this.currentSensors, 'velocityY').listen();
+    this.gui.add(this.currentSensors, 'angle').listen();
+
+    for (let i = 0; i < SENSOR_NUM; i++) {
+      this.gui
+        .add(this.currentSensors.distanceData, i,0,1,0.01)
+        .name('Sensor ' + i).listen();
+    }
+
+    var customContainer = document.getElementById('dat-gui-container');
+    if (customContainer) customContainer.appendChild(this.gui.domElement);
+    else {
+      console.error('Problem getting GUI container');
+    }
+
+    this.scene.input.keyboard.on('keydown-X', (event) => {
       if (
         RootStore.gameStore.isSimulationRunning &&
         RootStore.gameStore.isSimulationView === false
@@ -51,13 +74,13 @@ export default class CarController {
 
     let allBodies = this.scene.matter.world
       .getAllBodies()
-      .filter(body => body.label !== 'Car body');
+      .filter((body) => body.label !== 'Car body');
     bodies = bodies.concat(allBodies);
 
     //Shoot these rays!
     let center = new Phaser.Math.Vector2(this.car.body.x, this.car.body.y);
     let forward = this.getForwardVector();
-    let rayLength = 10000;
+    let rayLength = 5000;
 
     /*
         x2=cosβx1−sinβy1
@@ -96,15 +119,34 @@ export default class CarController {
         velocityX: this.car.body.body.velocity.x,
         velocityY: this.car.body.body.velocity.y,
         angle: this.car.body.angle,
-        distanceData: sensorData
+        distanceData: sensorData,
       },
       carControls: {
         throttle: y,
-        steering: x
-      }
+        steering: x,
+      },
     };
 
-    this.currentSensors = frameData.sensorData;
+    //TODO: temporary
+    this.currentSensors.velocityX = frameData.sensorData.velocityX;
+    this.currentSensors.velocityY = frameData.sensorData.velocityY;
+    this.currentSensors.angle = frameData.sensorData.angle;
+
+    for (let i = 0; i < SENSOR_NUM; i++) {
+      this.currentSensors.distanceData[i] =
+        frameData.sensorData.distanceData[i];
+    }
+
+    //
+    for (let i = 0; i < SENSOR_NUM; i++) {
+      console.log(i, '' + i, this.currentSensors.distanceData['' + i]);
+    }
+
+    //this.currentSensors = frameData.sensorData;
+
+    // for (var i in this.gui.__controllers) {
+    //   this.gui.__controllers[i].updateDisplay();
+    // }
 
     if (RootStore.gameStore.isSimulationView === false) {
       RootStore.gameStore.addFrame(frameData);
