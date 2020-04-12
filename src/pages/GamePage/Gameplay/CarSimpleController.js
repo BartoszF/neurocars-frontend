@@ -27,12 +27,12 @@ export default class CarSimpleController extends CarController {
     if (x < 0) {
       Phaser.Physics.Matter.Matter.Body.setAngularVelocity(
         this.car.body.body,
-        -0.05 * turnFactor * Math.sign(y+0.01)
+        -0.05 * turnFactor //* Math.sign(y+0.01)
       );
     } else if (x > 0) {
       Phaser.Physics.Matter.Matter.Body.setAngularVelocity(
         this.car.body.body,
-        0.05 * turnFactor * Math.sign(y+0.01)
+        0.05 * turnFactor //* Math.sign(y+0.01)
       );
     }
 
@@ -41,7 +41,7 @@ export default class CarSimpleController extends CarController {
         this.car.body.thrust(this.car.config.maxDriveForce);
     } else if (y < 0) {
       if (
-        this.getForwardVelocity().length() > -this.car.config.maxBackwardSpeed
+        this.getForwardVelocity().length() < this.car.config.maxBackwardSpeed
       )
         this.car.body.thrustBack(this.car.config.maxDriveForce / 2);
     }
