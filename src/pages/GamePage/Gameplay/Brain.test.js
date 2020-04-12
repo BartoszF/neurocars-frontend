@@ -29,7 +29,7 @@ describe('Brain', () => {
             [0.010208463296294212, 0.14863371849060059],
             [0.1530204862356186, 0.7677065134048462]
           ],
-          activation: 'org.nd4j.linalg.activations.impl.ActivationSigmoid'
+          activation: 'sigmoid'
         },
         {
           inputSize: 2,
@@ -38,7 +38,7 @@ describe('Brain', () => {
             [0.9093779921531677, 0.3307114839553833],
             [0.566526472568512, 0.3519909679889679]
           ],
-          activation: 'org.nd4j.linalg.activations.impl.ActivationTanH'
+          activation: 'tanh'
         }
       ]
     };
