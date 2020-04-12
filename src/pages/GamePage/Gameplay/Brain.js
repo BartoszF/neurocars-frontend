@@ -12,7 +12,7 @@ export default class Brain {
       const layer = aiModel.layers[i];
       const dense = tf.layers.dense({
         units: layer.inputSize,
-        activation: this.getActivation(prevLayer.activation)
+        activation: /*this.getActivation(*/prevLayer.activation/*)*/
       });
       layers.push(dense.apply(layers[i - 1]));
     }
@@ -20,9 +20,9 @@ export default class Brain {
     const output = tf.layers
       .dense({
         units: 2,
-        activation: this.getActivation(
+        activation: //this.getActivation(
           aiModel.layers[aiModel.layers.length - 1].activation
-        )
+        //)
       })
       .apply(layers[layers.length - 1]);
 
