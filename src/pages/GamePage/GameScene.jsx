@@ -95,7 +95,7 @@ export const scene = {
       if (this.cursors.left.isDown) x = -1;
       if (this.cursors.right.isDown) x = 1;
 
-      this.carController.update(x, y);
+      this.carController.update(x, y, delta);
     } else {
       this.carController.update();
     }

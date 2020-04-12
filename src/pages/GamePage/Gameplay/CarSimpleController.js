@@ -5,8 +5,8 @@ import CarController from "./CarController";
 const MAX_LATERAL_IMPULSE = 1.8;
 
 export default class CarSimpleController extends CarController {
-  update(x, y) {
-    super.update(x,y);
+  update(x, y, delta) {
+    super.update(x,y, delta);
 
     let lat = this.getLateralVelocity().negate();
     let impulse = lat.scale(this.car.body.body.mass);
