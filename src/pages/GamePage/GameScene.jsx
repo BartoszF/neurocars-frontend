@@ -41,14 +41,14 @@ export const scene = {
       this.carController = new NeuralDriver(this);
     }
 
-    var centerBlock = this.matter.add.rectangle(0, 0, 1000, 1000, {
+    var centerBlock = this.matter.add.rectangle(0, 0, 3500, 3500, {
       isStatic: true,
       label: 'Center block'
     });
 
     var imgBlock = this.matter.add.image(0, 0, 'wheel');
-    imgBlock.displayWidth = 1000;
-    imgBlock.displayHeight = 1000;
+    imgBlock.displayWidth = 3500;
+    imgBlock.displayHeight = 3500;
     imgBlock.setExistingBody(centerBlock);
 
     var leftWall = this.matter.add.rectangle(-2000, 0, 100, 4000);
