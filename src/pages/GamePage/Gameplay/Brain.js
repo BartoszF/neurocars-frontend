@@ -4,7 +4,7 @@ export default class Brain {
   constructor(aiModel) {
     let layers = [];
 
-    const input = tf.input({ shape: [18] });
+    const input = tf.input({ shape: [15] });
     layers.push(input);
 
     for (let i = 1; i < aiModel.layers.length; i++) {

@@ -10,7 +10,7 @@ export default function createCar(carConfig, phaser) {
 
 
   var Bodies = Phaser.Physics.Matter.Matter.Bodies;
-  var carPhysicsBody = Bodies.rectangle(0, -600, 100, 62, {
+  var carPhysicsBody = Bodies.rectangle(0, -4000, 100, 62, {
     mass: 1000,
     inverseMass: 1 / 1000,
     friction: 0.3,
@@ -23,7 +23,7 @@ export default function createCar(carConfig, phaser) {
   carBody.displayHeight = 140;
 
   carBody.setExistingBody(carPhysicsBody);
-  carBody.setPosition(0,0);
+  carBody.setPosition(0,-1900);
 
   return {
     body: carBody,

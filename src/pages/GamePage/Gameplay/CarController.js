@@ -27,32 +27,32 @@ export default class CarController {
     this.lastLateralVel = new Phaser.Math.Vector2();
 
     this.currentSensors = {
-      velocityX: 0,
-      velocityY: 0,
-      accX: 0,
-      accY: 0,
-      angle: 0,
-      lastOutputX: 0,
-      lastOutputY: 0,
+      // velocityX: 0,
+      // velocityY: 0,
+      // accX: 0,
+      // accY: 0,
+      // angle: 0,
+      // lastOutputX: 0,
+      // lastOutputY: 0,
       distanceData: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
 
     this.gui = new dat.GUI({ autoPlace: false });
-    this.gui
-      .add(this.lastOutput, 'x', -1, 1, 0.1)
-      .name('Last Steering')
-      .listen();
-    this.gui
-      .add(this.lastOutput, 'y', -1, 1, 0.1)
-      .name('Last Throttle')
-      .listen();
-    this.gui.add(this.output, 'x', -1, 1, 0.1).name('Steering').listen();
-    this.gui.add(this.output, 'y', -1, 1, 0.1).name('Throttle').listen();
-    this.gui.add(this.currentSensors, 'accX', -50, 50, 0.1).listen();
-    this.gui.add(this.currentSensors, 'accY', -50, 50, 0.1).listen();
-    this.gui.add(this.currentSensors, 'velocityX', -1, 1, 0.1).listen();
-    this.gui.add(this.currentSensors, 'velocityY', -1, 1, 0.1).listen();
-    this.gui.add(this.currentSensors, 'angle', -1, 1, 0.1).listen();
+    // this.gui
+    //   .add(this.lastOutput, 'x', -1, 1, 0.1)
+    //   .name('Last Steering')
+    //   .listen();
+    // this.gui
+    //   .add(this.lastOutput, 'y', -1, 1, 0.1)
+    //   .name('Last Throttle')
+    //   .listen();
+    // this.gui.add(this.output, 'x', -1, 1, 0.1).name('Steering').listen();
+    // this.gui.add(this.output, 'y', -1, 1, 0.1).name('Throttle').listen();
+    // this.gui.add(this.currentSensors, 'accX', -50, 50, 0.1).listen();
+    // this.gui.add(this.currentSensors, 'accY', -50, 50, 0.1).listen();
+    // this.gui.add(this.currentSensors, 'velocityX', -1, 1, 0.1).listen();
+    // this.gui.add(this.currentSensors, 'velocityY', -1, 1, 0.1).listen();
+    // this.gui.add(this.currentSensors, 'angle', -1, 1, 0.1).listen();
 
     for (let i = 0; i < SENSOR_NUM; i++) {
       this.gui
@@ -112,7 +112,7 @@ export default class CarController {
     //Shoot these rays!
     let center = new Phaser.Math.Vector2(this.car.body.x, this.car.body.y);
     let forward = this.getForwardVector();
-    let rayLength = 5000;
+    let rayLength = 2000;
 
     /*
         x2=cosβx1−sinβy1
@@ -178,20 +178,20 @@ export default class CarController {
 
     let frameData = {
       sensorData: {
-        velocityX:
-          (rightSign * this.getLateralVelocity().length()) /
-          (this.car.config.maxForwardSpeed + 5),
-        velocityY:
-          (forwardSign * this.getForwardVelocity().length()) /
-          ((forwardSign > 0
-            ? this.car.config.maxForwardSpeed
-            : this.car.config.maxBackwardSpeed) +
-            5),
-        accX: (lateralAcc.length() * lateralAccSign)/15,
-        accY: (forwardAcc.length() * forwardAccSign)/15,
-        angle: this.car.body.angle / 180,
-        lastOutputX: this.lastOutput.x,
-        lastOutputY: this.lastOutput.y,
+        // velocityX:
+        //   (rightSign * this.getLateralVelocity().length()) /
+        //   (this.car.config.maxForwardSpeed + 5),
+        // velocityY:
+        //   (forwardSign * this.getForwardVelocity().length()) /
+        //   ((forwardSign > 0
+        //     ? this.car.config.maxForwardSpeed
+        //     : this.car.config.maxBackwardSpeed) +
+        //     5),
+        // accX: (lateralAcc.length() * lateralAccSign)/15,
+        // accY: (forwardAcc.length() * forwardAccSign)/15,
+        // angle: this.car.body.angle / 180,
+        // lastOutputX: this.lastOutput.x,
+        // lastOutputY: this.lastOutput.y,
         distanceData: sensorData,
       },
       carControls: {
@@ -201,11 +201,11 @@ export default class CarController {
     };
 
     //TODO: temporary
-    this.currentSensors.velocityX = frameData.sensorData.velocityX;
-    this.currentSensors.velocityY = frameData.sensorData.velocityY;
-    this.currentSensors.accX = frameData.sensorData.accX;
-    this.currentSensors.accY = frameData.sensorData.accY;
-    this.currentSensors.angle = frameData.sensorData.angle;
+    // this.currentSensors.velocityX = frameData.sensorData.velocityX;
+    // this.currentSensors.velocityY = frameData.sensorData.velocityY;
+    // this.currentSensors.accX = frameData.sensorData.accX;
+    // this.currentSensors.accY = frameData.sensorData.accY;
+    // this.currentSensors.angle = frameData.sensorData.angle;
 
     for (let i = 0; i < SENSOR_NUM; i++) {
       this.currentSensors.distanceData[i] =

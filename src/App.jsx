@@ -67,7 +67,7 @@ function App() {
                 />
               </Switch>
             </Content>
-            <Footer>DUPSKO</Footer>
+            {/* <Footer>DUPSKO</Footer> */}
           </Layout>
         </Router>
       </Provider>
