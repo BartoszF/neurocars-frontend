@@ -46,7 +46,7 @@ export default class Brain {
   update(sensors) {
     const output = this.model.predict(tf.tensor([sensors])).dataSync();
 
-    return [output[1], output[0]];
+    return [output[0], output[1]];
   }
 
   getActivation(activation) {
