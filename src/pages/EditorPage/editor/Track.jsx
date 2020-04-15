@@ -12,7 +12,7 @@ export class Track {
     this.pathEditor = new PathEditor(scene, graphics);
     this.trackDrawer = new TrackDrawer(scene, this.pathEditor);
     this.trackName = 'New Track';
-    this.trackId = null;
+    this.id = null;
     this.version = 0;
 
     this.car = createCar(
@@ -27,6 +27,7 @@ export class Track {
 
   saveTrack() {
     let data = {};
+    data.id = this.id;
     data.name = this.trackName;
     data.points = [];
     let points = this.pathEditor.getPoints();
@@ -41,22 +42,31 @@ export class Track {
     }
     data.version = this.version++;
 
-    if (this.trackId) {
-      TrackService.updateTrack(this.trackId, data)
+    if (this.id) {
+      console.log("PATCH", this.id);
+      TrackService.updateTrack(this.id, data)
         .then((returned) => {
           console.log(returned);
+          notification['success']({
+            message: 'Track saved',
+          });
         })
         .catch((err) => {
           console.log(err);
           notification['error']({
             message: 'Error saving track',
-            description: err.error,
+            description: err.message,
           });
         });
     } else {
+      console.log("POST", this.id)
       TrackService.createTrack(data)
         .then((returned) => {
           console.log(returned);
+          this.id = returned.id;
+          notification['success']({
+            message: 'Track saved',
+          });
         })
         .catch((err) => {
           console.log(err);
