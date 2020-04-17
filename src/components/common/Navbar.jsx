@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
+import { PlusOutlined } from '@ant-design/icons';
 import useStores from '../../useStores';
-import { Menu, Icon } from 'antd';
+import { Menu } from 'antd';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { PlayerAvatar } from './player/PlayerAvatar';
@@ -21,11 +22,11 @@ const LeftMenuItem = styled(Menu.Item)`
 
 const NavbarLogo = styled.img`
   max-height: 58px;
-  margin-top:auto;
+  margin-top: auto;
   margin-bottom: auto;
 `;
 
-export const Navbar = observer(props => {
+export const Navbar = observer((props) => {
   const history = useHistory();
   const [selectedKey, setSelectedKey] = useState('/');
   const { userStore } = useStores();
@@ -47,7 +48,7 @@ export const Navbar = observer(props => {
       <FormattedMessage id="navbar.dashboard" defaultMessage="Dashboard" />
     </Menu.Item>,
     <Menu.Item key="/simulation">
-      <Icon type="plus" style={{ fontSize: 16 }} />
+      <PlusOutlined style={{ fontSize: 16 }} />
       <FormattedMessage
         id="navbar.newSimulation"
         defaultMessage="New Simulation"
@@ -57,7 +58,7 @@ export const Navbar = observer(props => {
       <Menu.Item key="/profile">
         <FormattedMessage id="navbar.profile" defaultMessage="Profile" />
       </Menu.Item>
-    </Menu.SubMenu>
+    </Menu.SubMenu>,
   ];
 
   const nonAuthenticatedMenu = [
@@ -69,14 +70,14 @@ export const Navbar = observer(props => {
     </Menu.Item>,
     <Menu.Item key="/login">
       <FormattedMessage id="navbar.login" defaultMessage="Login" />
-    </Menu.Item>
+    </Menu.Item>,
   ];
 
   const userMenu = userStore.authenticated
     ? authenticatedMenu
     : nonAuthenticatedMenu;
 
-  const clickCallback = clickEvent => {
+  const clickCallback = (clickEvent) => {
     let path = clickEvent.key;
     setSelectedKey(path);
     history.push(path);

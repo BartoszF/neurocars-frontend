@@ -1,12 +1,12 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
-import CarController from "./CarController";
+import CarController from './CarController';
 
 const MAX_LATERAL_IMPULSE = 1.8;
 
 export default class CarSimpleController extends CarController {
   update(x, y, delta) {
-    super.update(x,y, delta);
+    super.update(x, y, delta);
 
     let lat = this.getLateralVelocity().negate();
     let impulse = lat.scale(this.car.body.body.mass);
@@ -40,9 +40,7 @@ export default class CarSimpleController extends CarController {
       if (this.getForwardVelocity().length() < this.car.config.maxForwardSpeed)
         this.car.body.thrust(this.car.config.maxDriveForce);
     } else if (y < 0) {
-      if (
-        this.getForwardVelocity().length() < this.car.config.maxBackwardSpeed
-      )
+      if (this.getForwardVelocity().length() < this.car.config.maxBackwardSpeed)
         this.car.body.thrustBack(this.car.config.maxDriveForce / 2);
     }
 

@@ -18,11 +18,11 @@ const SimulationService = {
     });
   },
 
-  createSimulation(player) {
+  createSimulation(simulation) {
     return request({
       url: `/simulations`,
       method: 'POST',
-      body: JSON.stringify(player),
+      body: JSON.stringify(simulation),
       authenticated: true
     });
   },

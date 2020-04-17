@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
 //
 //				code by Isaiah Smith
@@ -50,7 +50,7 @@ export default function raycast(bodies, start, end, sort = true) {
   //if desired, we then sort the collisions based on the
   //disance from the ray's start
   if (sort)
-    cols.sort(function(a, b) {
+    cols.sort(function (a, b) {
       return a.point.distance(start) - b.point.distance(start);
     });
 
@@ -321,6 +321,6 @@ class vec2 {
   }
 
   toString() {
-    return "vector<" + this.x + ", " + this.y + ">";
+    return 'vector<' + this.x + ', ' + this.y + '>';
   }
 }
