@@ -11,6 +11,11 @@ export const SimulationMessages = defineMessages({
     defaultMessage: 'Learn',
     description: ''
   },
+  track: {
+    id: 'simulation.track',
+    defaultMessage: 'Track',
+    description: ''
+  },
   inCreationState: {
     id: 'simulation.state.IN_CREATION',
     defaultMessage: 'Creating.',
