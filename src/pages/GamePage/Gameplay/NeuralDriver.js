@@ -16,7 +16,9 @@ export default class NeuralDriver {
     let sensors = this.controller.currentSensors;
 
     if (sensors.distanceData && sensors.distanceData.length > 0) {
-      let input = [/*sensors.velocityX, sensors.velocityY, sensors.angle*/];
+      let input = [
+        /*sensors.velocityX, sensors.velocityY, sensors.angle*/
+      ];
 
       for (let i in sensors.distanceData) {
         input.push(sensors.distanceData[i]);

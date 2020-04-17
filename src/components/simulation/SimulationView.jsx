@@ -8,7 +8,7 @@ import { SimulationMessages } from '../../i18n/globalMessages/Simulation';
 import { CommonMessages } from '../../i18n/globalMessages/Common';
 import SimulationService from '../../service/SimulationService';
 
-export const SimulationView = observer(props => {
+export const SimulationView = observer((props) => {
   const { gameStore } = useStores();
   const history = useHistory();
   const intl = useIntl();
@@ -17,14 +17,14 @@ export const SimulationView = observer(props => {
 
   useEffect(() => {
     if (simulationFinished()) {
-        setAiModelLoading(true);
+      setAiModelLoading(true);
       SimulationService.getAiModel(props.simulation.id)
-        .then(model => {
+        .then((model) => {
           setAiModel(model.networkModelDTO);
           console.log(model.networkModelDTO);
           setAiModelLoading(false);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           setAiModelLoading(false);
         });
@@ -71,7 +71,7 @@ export const SimulationView = observer(props => {
     return props.simulation.state === 'FINISHED';
   };
 
-  let getLearnButton = shouldPassClick => {
+  let getLearnButton = (shouldPassClick) => {
     if (learnButtonVisible) {
       return (
         <Button onClick={shouldPassClick ? onLearnClick : () => {}}>
@@ -85,7 +85,11 @@ export const SimulationView = observer(props => {
 
   const getViewButton = () => {
     if (simulationFinished() && aiModelLoading === false) {
-      return <Button onClick={onViewClick}>{intl.formatHTMLMessage(CommonMessages.view)}</Button>;
+      return (
+        <Button onClick={onViewClick}>
+          {intl.formatHTMLMessage(CommonMessages.view)}
+        </Button>
+      );
     }
   };
 
@@ -110,6 +114,9 @@ export const SimulationView = observer(props => {
     <div>
       <Row>
         <h2>Simulation name here</h2>
+      </Row>
+      <Row>
+        <span>{intl.formatMessage(SimulationMessages.track) + ': ' + 'trackNameHere'/*props.simulation.track.name*/}</span>
       </Row>
       <Row>
         <span>{`${intl.formatMessage(

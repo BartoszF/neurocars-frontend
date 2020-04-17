@@ -20,7 +20,6 @@ export default class CarController {
     this.scene = scene;
     this.car = scene.car;
     this.frame = 0;
-    this.lastOutput = { x: 0, y: 0 };
     this.output = { x: 0, y: 0 };
 
     this.lastForwardVel = new Phaser.Math.Vector2();
@@ -32,20 +31,10 @@ export default class CarController {
       // accX: 0,
       // accY: 0,
       // angle: 0,
-      // lastOutputX: 0,
-      // lastOutputY: 0,
       distanceData: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
 
     this.gui = new dat.GUI({ autoPlace: false });
-    // this.gui
-    //   .add(this.lastOutput, 'x', -1, 1, 0.1)
-    //   .name('Last Steering')
-    //   .listen();
-    // this.gui
-    //   .add(this.lastOutput, 'y', -1, 1, 0.1)
-    //   .name('Last Throttle')
-    //   .listen();
     // this.gui.add(this.output, 'x', -1, 1, 0.1).name('Steering').listen();
     // this.gui.add(this.output, 'y', -1, 1, 0.1).name('Throttle').listen();
     // this.gui.add(this.currentSensors, 'accX', -50, 50, 0.1).listen();
@@ -92,8 +81,8 @@ export default class CarController {
 
   simulationUpdate(x, y, delta) {
     this.frame++;
-    this.lastOutput.x = this.output.x.valueOf();
-    this.lastOutput.y = this.output.y.valueOf();
+    // this.lastOutput.x = this.output.x.valueOf();
+    // this.lastOutput.y = this.output.y.valueOf();
     this.output.x = x.valueOf();
     this.output.y = y.valueOf();
 
@@ -146,36 +135,6 @@ export default class CarController {
       }
     }
 
-    const forwardDistance = this.getForwardVector()
-      .clone()
-      .normalize()
-      .distance(this.getForwardVelocity().clone().normalize());
-    const forwardSign = forwardDistance > 1 ? -1 : 1;
-
-    const rightDistance = this.getRightVector()
-      .clone()
-      .normalize()
-      .distance(this.getLateralVelocity().clone().normalize());
-    const rightSign = rightDistance > 1 ? -1 : 1;
-
-    let forwardAcc = 0;
-    let forwardVel = this.getForwardVelocity().clone();
-    forwardAcc = forwardVel.subtract(this.lastForwardVel).scale(delta / 60);
-    const forwardAccDistance = this.getForwardVector()
-      .clone()
-      .normalize()
-      .distance(forwardAcc.clone().normalize());
-    const forwardAccSign = forwardAccDistance > 1 ? -1 : 1;
-
-    let lateralAcc = 0;
-    let lateralVel = this.getLateralVelocity().clone();
-    lateralAcc = lateralVel.subtract(this.lastLateralVel).scale(delta / 60);
-    const lateralAccDistance = this.getRightVector()
-      .clone()
-      .normalize()
-      .distance(lateralAcc.clone().normalize());
-    const lateralAccSign = lateralAccDistance > 1 ? -1 : 1;
-
     let frameData = {
       sensorData: {
         // velocityX:
@@ -190,8 +149,6 @@ export default class CarController {
         // accX: (lateralAcc.length() * lateralAccSign)/15,
         // accY: (forwardAcc.length() * forwardAccSign)/15,
         // angle: this.car.body.angle / 180,
-        // lastOutputX: this.lastOutput.x,
-        // lastOutputY: this.lastOutput.y,
         distanceData: sensorData,
       },
       carControls: {
@@ -201,24 +158,11 @@ export default class CarController {
     };
 
     //TODO: temporary
-    // this.currentSensors.velocityX = frameData.sensorData.velocityX;
-    // this.currentSensors.velocityY = frameData.sensorData.velocityY;
-    // this.currentSensors.accX = frameData.sensorData.accX;
-    // this.currentSensors.accY = frameData.sensorData.accY;
-    // this.currentSensors.angle = frameData.sensorData.angle;
-
     for (let i = 0; i < SENSOR_NUM; i++) {
       this.currentSensors.distanceData[i] =
         frameData.sensorData.distanceData[i];
     }
-
     //
-
-    //this.currentSensors = frameData.sensorData;
-
-    // for (var i in this.gui.__controllers) {
-    //   this.gui.__controllers[i].updateDisplay();
-    // }
 
     if (RootStore.gameStore.isSimulationView === false) {
       RootStore.gameStore.addFrame(frameData);

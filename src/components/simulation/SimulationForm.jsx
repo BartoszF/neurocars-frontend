@@ -1,64 +1,98 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { Form, Icon, Input, Button, Spin } from 'antd';
+import { Form, Input, Button, Spin, notification } from 'antd';
+import { FileTextOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
 import useStores from '../../useStores';
 import SimulationService from '../../service/SimulationService';
+import { useEffect } from 'react';
+import { TrackService } from '../../service/TrackService';
+import { TrackSelect } from './TrackSelect';
 
 const StyledForm = styled(Form)`
   //max-width: 500px;
 `;
 
-const SimulationForm = observer(props => {
+const SimulationForm = observer((props) => {
   const history = useHistory();
+  //const ref = React.createRef();
+  const [form] = Form.useForm();
   const { userStore } = useStores();
-  let [loading, setLoading] = useState(false);
+  let [loading, setLoading] = useState(true);
+  let [tracks, setTracks] = useState([]);
 
-  let handleSubmit = e => {
-    e.preventDefault();
-    props.form.validateFields((err, values) => {
-      if (!err) {
-        setLoading(true);
+  useEffect(() => {
+    TrackService.getTracks()
+      .then((tracks) => {
+        console.log(tracks);
+        setTracks(tracks);
+        setLoading(false);
+      })
+      .catch((err) => {
+        notification.error({
+          title: 'Error',
+          message: "Couldn't get tracks",
+        });
+      });
+  }, []);
 
-        SimulationService.createSimulation()
-          .then(simulation => {
-            history.push(`/simulation/${simulation.id}`);
-          })
-          .catch(err => {
-            console.log(err);
-            setLoading(false);
-          });
-      }
+  let handleSubmit = (values) => {
+    setLoading(true);
+    let sim = { name: values.name, track: values.track };
+
+    SimulationService.createSimulation(sim)
+      .then((simulation) => {
+        history.push(`/simulation/${simulation.id}`);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
+  const trackSelect = (val) => {
+    form.setFieldsValue({
+      track: val,
     });
   };
 
-  const { getFieldDecorator } = props.form;
-  return (
-    <StyledForm onSubmit={handleSubmit} className="simulation-form">
-      <Form.Item>
-        {getFieldDecorator('name', {
-          rules: [{ required: true, message: 'Please input simulation name!' }]
-        })(
+  const getForm = () => {
+    return (
+      <StyledForm
+        form={form}
+        onFinish={handleSubmit}
+        className="simulation-form"
+      >
+        <Form.Item
+          name="name"
+          rules={[{ required: true, message: 'Please input simulation name!' }]}
+        >
           <Input
-            prefix={
-              <Icon type="file-text" style={{ color: 'rgba(0,0,0,.25)' }} />
-            }
+            prefix={<FileTextOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="Name"
           />
-        )}
-      </Form.Item>
-      <Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="simulation-form-button"
+        </Form.Item>
+        <Form.Item
+          name="track"
+          rules={[{ required: true, message: 'Please select track!' }]}
+          allowClear
         >
-          {loading ? <Spin indicator={<Icon type="loading" />} /> : "Create"}
-        </Button>
-      </Form.Item>
-    </StyledForm>
-  );
+          <TrackSelect label={'Track'} tracks={tracks} onChange={trackSelect} />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="simulation-form-button"
+          >
+            Create
+          </Button>
+        </Form.Item>
+      </StyledForm>
+    );
+  };
+  return loading ? <Spin indicator={<LoadingOutlined />} /> : getForm();
 });
 
-export default Form.create({ name: 'simulation_form' })(SimulationForm);
+export default SimulationForm;

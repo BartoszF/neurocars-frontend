@@ -7,6 +7,12 @@ export const TrackService = {
       method: 'GET',
     });
   },
+  getTracks() {
+    return request({
+      url: `/tracks`,
+      method: 'GET',
+    });
+  },
   createTrack(data) {
     return request({
       url: '/tracks',

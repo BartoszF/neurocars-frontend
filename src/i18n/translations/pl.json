@@ -28,5 +28,6 @@
   "simulation.state.GATHERED_DATA": "Dane gotowe. Oczekiwanie na wolnego trenera.",
   "simulation.state.IN_CREATION": "Tworzenie...",
   "simulation.state.LOST_DATA": "Dane niepełne.",
-  "simulation.state.UNKNOWN": "Unknown (shouldn't happen)"
+  "simulation.state.UNKNOWN": "Unknown (shouldn't happen)",
+  "simulation.track": "Trasa"
 }
