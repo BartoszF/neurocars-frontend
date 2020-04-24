@@ -7,6 +7,7 @@ import { useIntl } from 'react-intl';
 import { SimulationMessages } from '../../i18n/globalMessages/Simulation';
 import { CommonMessages } from '../../i18n/globalMessages/Common';
 import SimulationService from '../../service/SimulationService';
+import { TrackService } from '../../service/TrackService';
 
 export const SimulationView = observer((props) => {
   const { gameStore } = useStores();
@@ -113,10 +114,7 @@ export const SimulationView = observer((props) => {
   return (
     <div>
       <Row>
-        <h2>Simulation name here</h2>
-      </Row>
-      <Row>
-        <span>{intl.formatMessage(SimulationMessages.track) + ': ' + 'trackNameHere'/*props.simulation.track.name*/}</span>
+        <span>{intl.formatMessage(SimulationMessages.track) + ': ' + props.simulation.trackDTO.name}</span>
       </Row>
       <Row>
         <span>{`${intl.formatMessage(
