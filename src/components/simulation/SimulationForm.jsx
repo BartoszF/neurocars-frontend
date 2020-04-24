@@ -39,14 +39,17 @@ const SimulationForm = observer((props) => {
 
   let handleSubmit = (values) => {
     setLoading(true);
-    let sim = { name: values.name, track: values.track };
+    let sim = { name: values.name, trackDTO: { id: values.track } };
 
     SimulationService.createSimulation(sim)
       .then((simulation) => {
         history.push(`/simulation/${simulation.id}`);
       })
       .catch((err) => {
-        console.log(err);
+        notification.error({
+          title: 'Error',
+          message: err.message,
+        });
         setLoading(false);
       });
   };
