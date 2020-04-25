@@ -3,37 +3,78 @@ import { collisionCategories } from './Gameplay/Constants';
 import CarSimpleController from './Gameplay/CarSimpleController';
 import RootStore from '../../stores/RootStore';
 import NeuralDriver from './Gameplay/NeuralDriver';
+import { TrackDrawer } from '../../components/game/TrackDrawer';
+import Phaser from 'phaser';
 
 export const scene = {
-  preload: function() {
+  preload: function () {
     this.load.image('wheel', '/assets/wheel.png');
     this.load.image('car', '/assets/cars/Audi.png');
+    this.load.image('track', '/assets/track/track.png');
   },
 
-  create: function() {
+  create: function () {
     collisionCategories['WORLD'] = this.matter.world.nextCategory();
-    collisionCategories['TIRE'] = this.matter.world.nextCategory();
+    collisionCategories['OUTERWALL'] = this.matter.world.nextCategory();
     collisionCategories['BODY'] = this.matter.world.nextCategory();
 
-    this.matter.world.setBounds(-2000, -2000, 4000, 4000).disableGravity();
+    let trackDrawer = new TrackDrawer(this);
+    const points = RootStore.gameStore.simulationObject.trackDTO.trackPoints;
+
+    let mappedPoints = [];
+
+    points.forEach((point) => {
+      mappedPoints.push(new Phaser.Math.Vector2(point.x, point.y));
+    });
+
+    trackDrawer.init(mappedPoints);
+    trackDrawer.draw();
+
+    this.matter.world.setBounds(-4000, -4000, 8000, 8000).disableGravity();
     let debug = this.matter.world.debugConfig;
     debug.staticLineColor = 0x00ff00;
     debug.sensorLineColor = 0x00ff00;
     this.matter.world.debugConfig = debug;
 
-    // var innerTrack = '100 0 75 50 100 100 25 100 0 50 25 0';
+    let innerBounds = trackDrawer.getInnerBounds();
+    let mappedInnerBounds = [];
 
-    // var poly = this.add.polygon(0, 0, innerTrack, 0xff0000, 0.2);
+    for (let i = 0; i < innerBounds.length; i += 2) {
+      let pair = { x: innerBounds[i], y: innerBounds[i + 1] };
+      mappedInnerBounds.push(pair);
+    }
 
-    // this.matter.add.gameObject(poly, { shape: { type: 'fromVerts', verts: innerTrack, flagInternal: true } });
+    let innerWall = this.matter.body.create({
+      isStatic: true,
+      vertices: mappedInnerBounds,
+      collisionFilter: { category: collisionCategories['WORLD'] },
+    });
 
-    // poly.setBounce(0.2);
-    // poly.setFriction(0, 0, 0);
+    this.matter.world.add(innerWall);
+
+    let outerBounds = trackDrawer.getOuterBounds();
+    let mappedOuterBounds = [];
+
+    for (let i = 0; i < outerBounds.length; i += 2) {
+      let pair = { x: outerBounds[i], y: outerBounds[i + 1] };
+      mappedOuterBounds.push(pair);
+    }
+
+    let outerWall = this.matter.body.create({
+      isStatic: true,
+      vertices: mappedOuterBounds,
+      collisionFilter: { category: collisionCategories['OUTERWALL'] },
+    });
+
+    this.matter.world.add(outerWall);
 
     this.car = createCar(
       { maxForwardSpeed: 25, maxBackwardSpeed: 15, maxDriveForce: 4.5 },
       this
     );
+
+    //this.car.body.setPosition(0, 0);
+    this.car.body.setPosition(mappedPoints[0].x, mappedPoints[0].y);
 
     if (RootStore.gameStore.isSimulationView === false) {
       this.carController = new CarSimpleController(this);
@@ -41,50 +82,12 @@ export const scene = {
       this.carController = new NeuralDriver(this);
     }
 
-    var centerBlock = this.matter.add.rectangle(0, 0, 3500, 3500, {
-      isStatic: true,
-      label: 'Center block'
-    });
-
-    var imgBlock = this.matter.add.image(0, 0, 'wheel');
-    imgBlock.displayWidth = 3500;
-    imgBlock.displayHeight = 3500;
-    imgBlock.setExistingBody(centerBlock);
-
-    var leftWall = this.matter.add.rectangle(-2000, 0, 100, 4000);
-    imgBlock = this.matter.add.image(0, 0, 'wheel');
-    imgBlock.displayWidth = 100;
-    imgBlock.displayHeight = 4000;
-    imgBlock.setExistingBody(leftWall);
-    leftWall.isStatic = true;
-
-    var rightWall = this.matter.add.rectangle(2000, 0, 100, 4000);
-    imgBlock = this.matter.add.image(0, 0, 'wheel');
-    imgBlock.displayWidth = 100;
-    imgBlock.displayHeight = 4000;
-    imgBlock.setExistingBody(rightWall);
-    rightWall.isStatic = true;
-
-    var topWall = this.matter.add.rectangle(0, -2000, 4000, 100);
-    imgBlock = this.matter.add.image(0, 0, 'wheel');
-    imgBlock.displayWidth = 4000;
-    imgBlock.displayHeight = 100;
-    imgBlock.setExistingBody(topWall);
-    topWall.isStatic = true;
-
-    var bottomWall = this.matter.add.rectangle(0, 2000, 4000, 100);
-    imgBlock = this.matter.add.image(0, 0, 'wheel');
-    imgBlock.displayWidth = 4000;
-    imgBlock.displayHeight = 100;
-    imgBlock.setExistingBody(bottomWall);
-    bottomWall.isStatic = true;
-
     this.cameras.main.setZoom(0.3);
     this.cameras.main.startFollow(this.car.body, false, 0.6, 0.6, 0, 0);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   },
-  update: function(time, delta) {
+  update: function (time, delta) {
     if (RootStore.gameStore.isSimulationView === false) {
       let x = 0;
       let y = 0;
@@ -99,5 +102,5 @@ export const scene = {
     } else {
       this.carController.update();
     }
-  }
+  },
 };

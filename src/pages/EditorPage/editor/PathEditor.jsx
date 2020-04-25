@@ -16,6 +16,7 @@ export class PathEditor {
     this.scene = scene;
     this.listeners = [];
     this.graphics = graphics;
+    graphics.setDepth(8);
     this.path = scene.add.path(1200, 0);
     this.isClosed = false;
   }
@@ -29,7 +30,7 @@ export class PathEditor {
   }
 
   getPoints() {
-    return this.path.getSpacedPoints(this.path.getLength() / 10);
+    return this.path.getSpacedPoints(this.path.getLength() / 100);
   }
 
   closePath() {

@@ -40,7 +40,7 @@ export const GamePage = observer(props => {
     physics: {
       default: "matter",
       matter: {
-        debug: false
+        debug: true
       }
     },
     scale: {

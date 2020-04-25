@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { PathEditor } from './PathEditor';
-import { TrackDrawer } from './TrackDrawer';
+import { TrackDrawer } from '../../../components/game/TrackDrawer';
 import * as dat from 'dat.gui';
 import createCar from '../../GamePage/Gameplay/CarFactory';
 import { TrackService } from '../../../service/TrackService';
@@ -29,10 +29,10 @@ export class Track {
     let data = {};
     data.id = this.id;
     data.name = this.trackName;
-    data.points = [];
+    data.trackPoints = [];
     let points = this.pathEditor.getPoints();
     for (let i in points) {
-      data.points.push({
+      data.trackPoints.push({
         x: points[i].x,
         y: points[i].y,
         width: 350,
@@ -43,7 +43,7 @@ export class Track {
     data.version = this.version++;
 
     if (this.id) {
-      console.log("PATCH", this.id);
+      console.log('PATCH', this.id);
       TrackService.updateTrack(this.id, data)
         .then((returned) => {
           console.log(returned);
@@ -59,7 +59,7 @@ export class Track {
           });
         });
     } else {
-      console.log("POST", this.id)
+      console.log('POST', this.id);
       TrackService.createTrack(data)
         .then((returned) => {
           console.log(returned);
@@ -82,7 +82,7 @@ export class Track {
     var gui = new dat.GUI({ autoPlace: false });
 
     gui.add(this, 'trackName').name('Track Name');
-    gui.add(this, "saveTrack").name("Save");
+    gui.add(this, 'saveTrack').name('Save');
 
     let createFolder = gui.addFolder('Create');
 
@@ -107,11 +107,16 @@ export class Track {
     });
 
     let trackFolder = gui.addFolder('Track');
-    trackFolder.add(this.trackDrawer, 'draw').name('Draw track');
+    trackFolder.add(this, 'drawTrack').name('Draw track');
     trackFolder.add(this.trackDrawer, 'clear').name('Clear track');
 
     var customContainer = document.getElementById('dat-gui-container');
     customContainer.appendChild(gui.domElement);
+  }
+
+  drawTrack() {
+    this.trackDrawer.init(this.pathEditor.getPoints());
+    this.trackDrawer.draw();
   }
 
   setTestTrack() {

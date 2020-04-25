@@ -12,6 +12,8 @@ export class Point {
       .rectangle(this.position.x, this.position.y, 32, 32, 0xff0000)
       .setInteractive({ draggable: true });
 
+    this.rectangle.setDepth(10);
+
     this.rectangle.on('drag', (pointer, dragX, dragY) =>
       this.onDrag(pointer, dragX, dragY)
     );

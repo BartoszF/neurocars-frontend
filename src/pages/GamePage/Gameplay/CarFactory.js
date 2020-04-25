@@ -3,10 +3,7 @@ import { collisionCategories } from './Constants';
 import Tire from './Tire';
 
 export default function createCar(carConfig, phaser) {
-  const tireWorldCollision = [
-    collisionCategories['TIRE'],
-    collisionCategories['WORLD'],
-  ];
+  const tireWorldCollision = [collisionCategories['WORLD']];
 
   var Bodies = Phaser.Physics.Matter.Matter.Bodies;
   var carPhysicsBody = Bodies.rectangle(0, -4000, 100, 62, {
@@ -15,11 +12,15 @@ export default function createCar(carConfig, phaser) {
     friction: 0.3,
     fritctionAir: 0.4,
     label: 'Car body',
+    collisionFilter: { mask: collisionCategories['WORLD'] },
   });
 
-  var carBody = phaser.matter.add.image(0, 0, 'car');
+  var carBody = phaser.matter.add.image(0, 0, 'car', null, {
+    collisionFilter: { mask: collisionCategories['WORLD'] },
+  });
   carBody.displayWidth = 120;
   carBody.displayHeight = 140;
+  carBody.setDepth(5);
 
   carBody.setExistingBody(carPhysicsBody);
   carBody.setPosition(0, -1900);
