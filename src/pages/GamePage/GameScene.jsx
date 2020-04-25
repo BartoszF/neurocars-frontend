@@ -47,7 +47,7 @@ export const scene = {
     let innerWall = this.matter.body.create({
       isStatic: true,
       vertices: mappedInnerBounds,
-      collisionFilter: collisionCategories['WORLD'],
+      collisionFilter: { category: collisionCategories['WORLD'] },
     });
 
     this.matter.world.add(innerWall);
@@ -63,7 +63,7 @@ export const scene = {
     let outerWall = this.matter.body.create({
       isStatic: true,
       vertices: mappedOuterBounds,
-      collisionFilter: collisionCategories['OUTERWALL'],
+      collisionFilter: { category: collisionCategories['OUTERWALL'] },
     });
 
     this.matter.world.add(outerWall);

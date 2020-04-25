@@ -12,11 +12,11 @@ export default function createCar(carConfig, phaser) {
     friction: 0.3,
     fritctionAir: 0.4,
     label: 'Car body',
-    collisionFilter: collisionCategories['WORLD'],
+    collisionFilter: { mask: collisionCategories['WORLD'] },
   });
 
   var carBody = phaser.matter.add.image(0, 0, 'car', null, {
-    collisionFilter: collisionCategories['WORLD'],
+    collisionFilter: { mask: collisionCategories['WORLD'] },
   });
   carBody.displayWidth = 120;
   carBody.displayHeight = 140;
