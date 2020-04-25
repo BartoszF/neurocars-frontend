@@ -64,6 +64,10 @@ export default class GameStore {
     this.simulationView = true;
   }
 
+  @action setTrack(track) {
+    this.simulation.trackDTO = track;
+  }
+
   @action
   sendFrames(framesNum, endSimulation = false) {
     let frames = toJS(this.frameData);
