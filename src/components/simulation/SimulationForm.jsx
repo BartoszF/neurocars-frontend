@@ -39,7 +39,7 @@ const SimulationForm = observer((props) => {
 
   let handleSubmit = (values) => {
     setLoading(true);
-    let sim = { name: values.name, trackDTO: { id: values.track } };
+    let sim = { name: values.name}; //, trackDTO: { id: values.track } 
 
     SimulationService.createSimulation(sim)
       .then((simulation) => {
@@ -78,8 +78,7 @@ const SimulationForm = observer((props) => {
         </Form.Item>
         <Form.Item
           name="track"
-          rules={[{ required: true, message: 'Please select track!' }]}
-          allowClear
+          rules={[{ required: false, message: 'Please select track!' }]}
         >
           <TrackSelect label={'Track'} tracks={tracks} onChange={trackSelect} />
         </Form.Item>

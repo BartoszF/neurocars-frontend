@@ -97,8 +97,9 @@ export default class GameStore {
   }
 
   @action
-  endSimulation(frame) {
+  endSimulation(/*frame*/ numFrames) {
     this.simulationRunning = false;
-    this.sendFrames(frame, true);
+    console.log("Finished with " + numFrames + " frames");
+    //this.sendFrames(frame, true);
   }
 }

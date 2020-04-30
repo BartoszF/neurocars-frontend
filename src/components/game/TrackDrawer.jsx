@@ -16,6 +16,9 @@ export class TrackDrawer {
 
     this.outerBounds = [];
     this.innerBounds = [];
+
+    this.minBound = { x: 0, y: 0 };
+    this.maxBound = { x: 0, y: 0 };
     //TEMPORARY
     this.width = 400;
   }
@@ -32,6 +35,12 @@ export class TrackDrawer {
 
     this.outerBounds = [];
     this.innerBounds = [];
+
+    let outerBound1 = [];
+    let outerBound2 = [];
+
+    let innerBound1 = [];
+    let innerBound2 = [];
 
     for (let i = 0; i < points.length; i++) {
       let point = points[i];
@@ -95,33 +104,55 @@ export class TrackDrawer {
         ...vector2ToFloats(new Vector2(1, 1))
       );
 
-      // if (i < points.length - 1) {
-      let leftZero = zero.clone().subtract(right.clone().scale(-50));
-      let leftThree = three.clone().subtract(right.clone().scale(-50));
-      this.outerBounds.push(
-        ...vector2ToFloats(three),
-        ...vector2ToFloats(zero),
-        ...vector2ToFloats(leftZero),
+      if (i % 5 === 0) {
+        let leftZero = zero.clone().subtract(right.clone().scale(-10));
+        let leftThree = three.clone().subtract(right.clone().scale(-10));
+        outerBound1.push(three);
+        outerBound2.unshift(leftThree);
 
-        ...vector2ToFloats(zero),
-        ...vector2ToFloats(leftZero),
-        ...vector2ToFloats(leftThree),
-      );
+        // this.outerBounds.push(
+        //   ...vector2ToFloats(three),
+        //   ...vector2ToFloats(zero),
+        //   ...vector2ToFloats(leftZero),
 
-      let rightOne = one.clone().subtract(right.clone().scale(50));
-      let rightTwo = two.clone().subtract(right.clone().scale(50));
+        //   ...vector2ToFloats(zero),
+        //   ...vector2ToFloats(leftZero),
+        //   ...vector2ToFloats(leftThree)
+        // );
 
-      this.innerBounds.push(
-        ...vector2ToFloats(one),
-        ...vector2ToFloats(two),
-        ...vector2ToFloats(rightOne),
+        let rightOne = one.clone().subtract(right.clone().scale(10));
+        let rightTwo = two.clone().subtract(right.clone().scale(10));
 
-        ...vector2ToFloats(two),
-        ...vector2ToFloats(rightTwo),
-        ...vector2ToFloats(rightOne)
-      );
-      // }
+        innerBound1.push(two);
+        innerBound2.unshift(rightTwo);
+
+        // this.innerBounds.push(
+        //   ...vector2ToFloats(one),
+        //   ...vector2ToFloats(two),
+        //   ...vector2ToFloats(rightOne),
+
+        //   ...vector2ToFloats(two),
+        //   ...vector2ToFloats(rightTwo),
+        //   ...vector2ToFloats(rightOne)
+        // );
+
+        if (leftZero.x < this.minBound.x) {
+          this.minBound.x = leftZero.x;
+        }
+        if (leftZero.y < this.minBound.y) {
+          this.minBound.y = leftZero.y;
+        }
+
+        if (leftZero.x > this.maxBound.x) {
+          this.maxBound.x = leftZero.x;
+        }
+        if (leftZero.y > this.maxBound.y) {
+          this.maxBound.y = leftZero.y;
+        }
+      }
     }
+    this.innerBounds.push(...innerBound1, ...innerBound2);
+    this.outerBounds.push(...outerBound1, ...outerBound2);
   }
 
   clear() {
@@ -157,5 +188,13 @@ export class TrackDrawer {
 
   getInnerBounds() {
     return this.innerBounds;
+  }
+
+  getMinBound() {
+    return this.minBound;
+  }
+
+  getMaxBound() {
+    return this.maxBound;
   }
 }
