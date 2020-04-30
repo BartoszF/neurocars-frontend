@@ -61,11 +61,11 @@ export const GamePage = observer((props) => {
 
   return (
     <GameWrapper id="gameParent">
-      {/*loaded == false && (*/
+      {loaded == false && (
         <ProgressDiv>
           <Progress type="circle" percent={parseInt(progress * 100)} />
         </ProgressDiv>
-      /*)*/}
+      )}
       <Unity width="100%" height="100%" unityContent={unityContent} />
     </GameWrapper>
   );
