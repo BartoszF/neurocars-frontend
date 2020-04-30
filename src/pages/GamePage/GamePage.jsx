@@ -20,7 +20,11 @@ const ProgressDiv = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
+  z-index: 10000;
   transform: translate(-50%, -50%);
+  & .ant-progress-text {
+    color: white;
+  }
 `;
 
 export const GamePage = observer((props) => {
@@ -59,7 +63,7 @@ export const GamePage = observer((props) => {
     <GameWrapper id="gameParent">
       {loaded == false && (
         <ProgressDiv>
-          <Progress type="circle" percent={progress * 100} />
+          <Progress type="circle" percent={parseInt(progress * 100)} />
         </ProgressDiv>
       )}
       <Unity width="100%" height="100%" unityContent={unityContent} />
