@@ -1,63 +1,68 @@
 import React, { useState } from "react";
-import Phaser from "phaser";
-import { IonPhaser } from "@ion-phaser/react";
-import { scene } from "./GameScene.jsx";
 import styled from "styled-components";
 import { observer } from "mobx-react";
 import useStores from "../../useStores";
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from "react-router-dom";
 import { useEffect } from "react";
 
+import { Progress } from "antd";
+
+import Unity, { UnityContent } from "react-unity-webgl";
+
 const GameWrapper = styled.div`
-  margin-left: auto;
-  margin-right: auto;
-  height: 800px;
+  height: 100vh;
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
 `;
 
-const GuiWrapper = styled.div`
+const ProgressDiv = styled.div`
   position: absolute;
-  top: 100px;
-  right: 45px;
-  width: 200px;
-  height: 60%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
-export const GamePage = observer(props => {
-  let [init] = useState(true);
-  let { gameStore, userStore } = useStores();
+export const GamePage = observer((props) => {
+  let [progress, setProgress] = useState(0.0);
+  let [loaded, setLoaded] = useState(false);
+  let { gameStore } = useStores();
   const history = useHistory();
 
-  useEffect(() => {
-
-    if(gameStore.isSimulationEnded) {
-      history.push(`/simulation/${gameStore.simulationObject.id}`)
+  let unityContent = new UnityContent(
+    "/game/Build.json",
+    "/game/UnityLoader.js",
+    {
+      adjustOnWindowResize: true,
     }
-  }, [gameStore.isSimulationEnded])
+  );
 
+  unityContent.on("progress", (progress) => {
+    setProgress(progress);
+  });
 
-  const game = {
-    type: Phaser.AUTO,
-    physics: {
-      default: "matter",
-      matter: {
-        debug: true
-      }
-    },
-    scale: {
-      parent:"gameParent",
-      mode: Phaser.Scale.FIT,
-      autoCenter: Phaser.Scale.CENTER_BOTH,
-      width: 1366,
-      height: 768,
-    },
-    fps: 30,
-    scene: scene
-  };
+  unityContent.on("loaded", () => {
+    setLoaded(true);
+  });
+
+  unityContent.on("quitted", () => {
+    console.log("QUITTING");
+  });
+
+  unityContent.on("Finished", (numFrames) => {
+    console.log("Finished");
+    gameStore.endSimulation(numFrames);
+    history.push(`/`);
+  });
 
   return (
     <GameWrapper id="gameParent">
-      <IonPhaser game={game} initialize={init} />
-      <GuiWrapper id="dat-gui-container"></GuiWrapper>
+      {loaded == false && (
+        <ProgressDiv>
+          <Progress type="circle" percent={progress * 100} />
+        </ProgressDiv>
+      )}
+      <Unity width="100%" height="100%" unityContent={unityContent} />
     </GameWrapper>
   );
 });
