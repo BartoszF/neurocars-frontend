@@ -52,7 +52,8 @@ function App() {
       <Provider rootStore={RootStore}>
         <Router>
           <Switch>
-            <PrivateRoute path="/gameTest/:simId" component={GamePage} />
+            {/* <PrivateRoute path="/gameTest/:simId" component={GamePage} /> */}
+            <Route path="/gameTest/:simId" component={GamePage} />
             <Layout>
               <Header>
                 <Navbar />
