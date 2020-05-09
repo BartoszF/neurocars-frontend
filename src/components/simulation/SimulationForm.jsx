@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { observer } from 'mobx-react';
-import styled from 'styled-components';
-import { Form, Input, Button, Spin, notification } from 'antd';
-import { FileTextOutlined, LoadingOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
-import useStores from '../../useStores';
-import SimulationService from '../../service/SimulationService';
-import { useEffect } from 'react';
-import { TrackService } from '../../service/TrackService';
-import { TrackSelect } from './TrackSelect';
+import React, { useState } from "react";
+import { observer } from "mobx-react";
+import styled from "styled-components";
+import { Form, Input, Button, Spin, notification } from "antd";
+import { FileTextOutlined, LoadingOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
+import useStores from "../../useStores";
+import SimulationService from "../../service/SimulationService";
+import { useEffect } from "react";
+import { TrackService } from "../../service/TrackService";
+import { TrackSelect } from "./TrackSelect";
 
 const StyledForm = styled(Form)`
   //max-width: 500px;
@@ -31,7 +31,7 @@ const SimulationForm = observer((props) => {
       })
       .catch((err) => {
         notification.error({
-          title: 'Error',
+          title: "Error",
           message: "Couldn't get tracks",
         });
       });
@@ -39,7 +39,7 @@ const SimulationForm = observer((props) => {
 
   let handleSubmit = (values) => {
     setLoading(true);
-    let sim = { name: values.name}; //, trackDTO: { id: values.track } 
+    let sim = { name: values.name, trackDTO: { id: values.track } };
 
     SimulationService.createSimulation(sim)
       .then((simulation) => {
@@ -47,7 +47,7 @@ const SimulationForm = observer((props) => {
       })
       .catch((err) => {
         notification.error({
-          title: 'Error',
+          title: "Error",
           message: err.message,
         });
         setLoading(false);
@@ -69,18 +69,18 @@ const SimulationForm = observer((props) => {
       >
         <Form.Item
           name="name"
-          rules={[{ required: true, message: 'Please input simulation name!' }]}
+          rules={[{ required: true, message: "Please input simulation name!" }]}
         >
           <Input
-            prefix={<FileTextOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+            prefix={<FileTextOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
             placeholder="Name"
           />
         </Form.Item>
         <Form.Item
           name="track"
-          rules={[{ required: false, message: 'Please select track!' }]}
+          rules={[{ required: false, message: "Please select track!" }]}
         >
-          <TrackSelect label={'Track'} tracks={tracks} onChange={trackSelect} />
+          <TrackSelect label={"Track"} tracks={tracks} onChange={trackSelect} />
         </Form.Item>
         <Form.Item>
           <Button
