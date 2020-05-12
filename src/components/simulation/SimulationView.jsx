@@ -18,20 +18,20 @@ export const SimulationView = observer((props) => {
 
   useEffect(() => {
     gameStore.setSimulation(props.simulation);
-    if (simulationFinished()) {
-      setAiModelLoading(true);
-      SimulationService.getAiModel(props.simulation.id)
-        .then((model) => {
-          setAiModel(model.networkModelDTO);
-          gameStore.setAiModel(aiModel);
-          console.log(model.networkModelDTO);
-          setAiModelLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setAiModelLoading(false);
-        });
-    }
+    // if (simulationFinished()) {
+    //   setAiModelLoading(true);
+    //   SimulationService.getAiModel(props.simulation.id)
+    //     .then((model) => {
+    //       setAiModel(model.networkModelDTO);
+    //       gameStore.setAiModel(aiModel);
+    //       console.log(model.networkModelDTO);
+    //       setAiModelLoading(false);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       setAiModelLoading(false);
+    //     });
+    // }
   }, [props.simulation.id]);
 
   let onLearnClick = () => {
@@ -81,15 +81,19 @@ export const SimulationView = observer((props) => {
   };
 
   const getViewButton = () => {
-    if (simulationFinished() && aiModelLoading === false) {
-      return (
-        <Button>
-          <Link to={`/gameTest/${props.simulation.id}`} target="_blank">
-            {intl.formatHTMLMessage(CommonMessages.view)}
-          </Link>
-        </Button>
-      );
+    let msg = intl.formatHTMLMessage(CommonMessages.view);
+
+    if (simulationFinished()) {
+      msg = intl.formatHTMLMessage(CommonMessages.view);
     }
+
+    return (
+      <Button>
+        <Link to={`/gameTest/${props.simulation.id}`} target="_blank">
+          {msg}
+        </Link>
+      </Button>
+    );
   };
 
   let getLearnButtonWithConfirm = () => {
@@ -124,7 +128,7 @@ export const SimulationView = observer((props) => {
         )}: ${intl.formatMessage(getMessage())}`}</span>
       </Row>
 
-      {getLearnButtonWithConfirm()}
+      {/* {getLearnButtonWithConfirm()} */}
       {getViewButton()}
     </div>
   );
